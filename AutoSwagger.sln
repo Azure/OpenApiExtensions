@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SomeWebApp", "samples\SomeWebApp\SomeWebApp.csproj", "{7E5AF3E2-2214-4D5C-875F-604C72272927}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsiSwaggerExtensions", "src\AsiSwaggerExtensions\AsiSwaggerExtensions.csproj", "{D41DC467-3863-4571-915B-FCB913A7BBD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.OpenApiExtensions", "src\Azure.OpenApiExtensions\Azure.OpenApiExtensions.csproj", "{D41DC467-3863-4571-915B-FCB913A7BBD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArmResourceProviderDemo", "samples\ArmResourceProviderDemo\ArmResourceProviderDemo.csproj", "{EFB66B7C-A236-4557-8B41-2CCC34D27EA0}"
 EndProject

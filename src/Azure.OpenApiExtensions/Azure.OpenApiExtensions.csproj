@@ -10,13 +10,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Azure.Global.Services.Common.Service.OpenApi" Version="1.0.17" GeneratePathProperty="true" />    
+    <PackageReference Include="Microsoft.Azure.Global.Services.Common.Service.OpenApi" Version="1.0.17" GeneratePathProperty="true" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Extensions\" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Content Include="$(PkgMicrosoft_Azure_Global_Services_Common_Service_OpenApi)\lib\netcoreapp3.1\Microsoft.Azure.Global.Services.Common.Service.OpenApi.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
