@@ -1,4 +1,6 @@
-Enlistment (Work In Progress)
+(Work In Progress) 
+---------------
+Enlistment 
 ==========
 #### Prerequisite - Configure dotnet swagger 
 From the exmaple APP project directory 
