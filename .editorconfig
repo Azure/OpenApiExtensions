@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
+
+# IDE0022: Use block body for methods
+csharp_style_expression_bodied_methods = false
+
+[*.{cs,vb}]
+indent_style=space

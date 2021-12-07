@@ -1,33 +1,87 @@
-# Project
+Enlistment
+==========
+#### Prerequisite - Configure dotnet swagger 
+From the exmaple APP project directory 
+1. Run `dotnet new tool-manifest --force` to create a tool manifest file
+2. Run `dotnet tool install --version 5.0.0 Swashbuckle.AspNetCore.Cli` to install swachbuckle cli as local tool
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+For more info check instructions here: [Swashbuckle.AspNetCore.Cli](https://github.com/domaindrivendev/Swashbuckle.AspNetCore#using-the-tool-with-the-net-core-30-sdk-or-later)
 
-As the maintainer of this project, please make a few updates:
+#### Compile and build
+1. set a global json file
+2. compile the project by running `dotnet build`. This will build the project and generate the swagger files
+    * The generated swagger files should appear under `$(ProjectDir)\Docs\OpenApiSpecs`
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+References
+==========
+  * [main library repo](https://msazure.visualstudio.com/One/_git/AGCI-CSF?path=/src/Service/OpenApi/OpenApiServiceExtension.cs&_a=contents&version=GBmaster)
+  * [swaggerGenerationLibrary](https://msazure.visualstudio.com/One/_git/AGE-Documents?path=%2Fdocs%2FCommon%2FswaggerGenerationLibrary.md&version=GBmaster&_a=preview)
+  * [more custom swagger filters](https://msazure.visualstudio.com/One/_git/DI-Agri?path=/src/PaaS/src/csharp/BaseNetCoreApp/ServiceCollectionExtentions/Helpers)
+  * [autorest/extensions](http://azure.github.io/autorest/extensions/)
+  * [example](https://dev.azure.com/msazure/One/_git/DI-Agri/pullrequest/5144979?_a=files&path=/src/PaaS/src/csharp/ResourceProviderService/Docs/OpenApiSpecs/latest/semi_automated_swagger.json)
+  * [PPT](https://microsoft-my.sharepoint.com/:p:/p/prjayasw/Ed7S0Ia9ZnVGhB1WQK16T5IBLsd4V_O-sxjizYcUuYjo8Q)
 
-## Contributing
+ 
+capability example
+==================
+https://dev.azure.com/msazure/One/_git/DI-Agri/pullrequest/5144979
+https://msazure.visualstudio.com/One/_git/DI-Agri?path=/src/PaaS/src/csharp/ResourceProviderService/Docs/arm-swagger/agfood/resource-manager/Microsoft.AgFoodPlatform/preview/2020-05-12-preview/agfood.json
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+Usage
+=================
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+add this code on your startup `ConfigureServices()` method [see usage](./samples/SomeWebApp/Startup.cs#L64)
 
-## Trademarks
+```csharp
+            var config = new SwaggerConfig
+            {
+                PolymorphicSchemaModels = new List<Type> { typeof(WeatherForecast) },
+                ModelEnumsAsString = true,
+                ReusableParameters = new Dictionary<string, Microsoft.OpenApi.Models.OpenApiParameter>()
+                {
+                    { "SubscriptionIdParameter", ArmReusableParameters.GetSubscriptionIdParameter() },
+                    { "ResourceGroupNameParameter", ArmReusableParameters.GetResourceGroupNameParameter() },
+                    { "ApiVersionParameter", ArmReusableParameters.GetApiVersionParameter() }                    
+                },               
+                EnableSwaggerSecurityTokenSupport = true,
+                XmlCommentFile = "SomeWebApp.xml"
+            };
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+            services.AddArmCompliantSwagger(config);
+```
+and on `Configure()` method
+
+add this at the beginning of the pipeline:
+```csharp
+    app.UseSwagger(option =>
+            {
+                // Enable middleware to serve generated Swagger as a JSON endpoint.
+                option.RouteTemplate = OpenApiOptions.JsonRoute;
+                // Change generated swagger version to 2.0
+                option.SerializeAsV2 = true;
+            });
+
+    app.UseSwaggerUI(option =>
+    {
+        option.SwaggerEndpoint(OpenApiOptions.UiEndpoint(), OpenApiOptions.Description);
+    });
+```
+
+Swagger Enrichment
+=================
+part of the process is to enrich your Swagger generation with metadata from your code.  
+here is a list of enrichments you should consider:
+1. [Xml documentation](https://docs.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties?view=vs-2019) file file on your .csproj, this would read your triple slash comment, translate it into XML file, and swashbuckle will take this file and embed the comments into the generated swagger.
+2. [Swashbuckle annotations ](https://github.com/domaindrivendev/Swashbuckle.AspNetCore#swashbuckleaspnetcoreannotations)
+3. [AGCI-CSF](https://msazure.visualstudio.com/One/_git/AGE-Documents?path=/docs/Common/swaggerGenerationLibrary.md&version=GBmaster&_a=preview) nuget annotations
+4. AsiSwaggerExtensions annotations:
+   1. ProducesContentTypeAttribute
+   2. SwaggerHideParameterAttribute
+   3. CustomSwaggerSchemaInheritanceAttribute
+   4. AsiExampleAttribute
+   5. CustomSwaggerSchemaIdAttribute
+   6. CustomSwaggerGenericsSchemaNameStartegyAttribute
+   7. LongRunningOperationAttribute
+   8. HideInDocsAttribute 
+   
