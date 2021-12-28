@@ -20,7 +20,8 @@ Usage
 add this code on your startup `ConfigureServices()` method [see usage](./samples/BasicWebAppDemo/Startup.cs#L64)
 
 ```csharp
-            var config = new SwaggerConfig
+            // _swaggerConfig a class member of your Startup class
+            _swaggerConfig = new SwaggerConfig
             {
                 PolymorphicSchemaModels = new List<Type> { typeof(WeatherForecast) },
                 ModelEnumsAsString = true,
