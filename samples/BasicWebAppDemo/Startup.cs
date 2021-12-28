@@ -51,7 +51,7 @@ namespace BasicWebAppDemo
                 },
                 ResourceProviderReusableParameters = OdataReusableParameters.Concat(new List<string> { "WorkspaceName" }).ToList(),
                 HideParametersEnabled = genarateExternalSwagger,
-                GenerateExternalSwagger = genarateExternalSwagger,                
+                GenerateExternalSwagger = genarateExternalSwagger,
                 SupportedApiVersions = new[] { "2021-09-01-preview", "2022-01-01-preview", "2021-10-01" },
                 OverrideMappingTypeToSchema = new Dictionary<Type, Microsoft.OpenApi.Models.OpenApiSchema> { { typeof(ODataQueryOptions<>), new OpenApiSchema() } },
                 GlobalCommonFilePath = "../../../../../Global/types.json",
@@ -94,7 +94,7 @@ namespace BasicWebAppDemo
                 })
                 .AddNewtonsoftJson();
 
-            services.AddArmCompliantSwagger(_swaggerConfig);
+            services.AddAutorestCompliantSwagger(_swaggerConfig);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

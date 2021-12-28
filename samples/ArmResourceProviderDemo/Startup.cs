@@ -48,7 +48,7 @@ namespace ArmResourceProviderDemo
                 },
                 ResourceProviderReusableParameters = OdataReusableParameters.Concat(new List<string> { "WorkspaceName" }).ToList(),
                 HideParametersEnabled = genarateExternalSwagger,
-                GenerateExternalSwagger = genarateExternalSwagger,                
+                GenerateExternalSwagger = genarateExternalSwagger,
                 SupportedApiVersions = new[] { "v1" },
                 GlobalCommonFilePath = "../../../../../Global/types.json",
                 RPCommonFilePath = "../Demo/types.json",
@@ -77,7 +77,7 @@ namespace ArmResourceProviderDemo
                         { "IndiaWindKind", typeof(WindIndiaProperties)}
                     }));
             });
-            services.AddArmCompliantSwagger(_swaggerConfig);
+            services.AddAutorestCompliantSwagger(_swaggerConfig);
 
         }
 

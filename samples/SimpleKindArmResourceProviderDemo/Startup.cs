@@ -48,7 +48,7 @@ namespace SimpleKindArmResourceProviderDemo
                 },
                 ResourceProviderReusableParameters = OdataReusableParameters.Concat(new List<string> { "WorkspaceName" }).ToList(),
                 HideParametersEnabled = genarateExternalSwagger,
-                GenerateExternalSwagger = genarateExternalSwagger,                
+                GenerateExternalSwagger = genarateExternalSwagger,
                 SupportedApiVersions = new[] { "v1" },
                 GlobalCommonFilePath = "../../../../../Global/types.json",
                 RPCommonFilePath = "../Demo/types.json",
@@ -63,9 +63,9 @@ namespace SimpleKindArmResourceProviderDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(c =>
-            {              
+            {
             });
-            services.AddArmCompliantSwagger(_swaggerConfig);
+            services.AddAutorestCompliantSwagger(_swaggerConfig);
 
         }
 
@@ -77,22 +77,7 @@ namespace SimpleKindArmResourceProviderDemo
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger(options =>
-            {
-                options.RouteTemplate = "swagger/{documentName}/swagger.json";
-                // Change generated swagger version to 2.0
-                options.SerializeAsV2 = true;
-            });
-
-            app.UseSwaggerUI(option =>
-            {
-                IEnumerable<string> actualDocumentsToGenerate = _swaggerConfig.SupportedApiVersions;
-                if (actualDocumentsToGenerate == null || !actualDocumentsToGenerate.Any())
-                {
-                    actualDocumentsToGenerate = new[] { _swaggerConfig.DefaultApiVersion };
-                }
-                actualDocumentsToGenerate.ToList().ForEach(v => option.SwaggerEndpoint($"/swagger/{v}/swagger.json", v));
-            });
+            app.UseAutorestCompliantSwagger(_swaggerConfig);
 
             app.UseRouting();
 

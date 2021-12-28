@@ -20,7 +20,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
 {
     public static class OpenApiOptionsExtension
     {
-        public static IServiceCollection AddArmCompliantSwagger(this IServiceCollection services, SwaggerConfig config)
+        public static IServiceCollection AddAutorestCompliantSwagger(this IServiceCollection services, SwaggerConfig config)
         {
             config.EnsureValidity();
 
@@ -168,7 +168,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
             return services;
         }
 
-        public static IApplicationBuilder UseArmCompliantSwagger(this IApplicationBuilder app, SwaggerConfig swaggerConfig, bool useSwaggerUI = true)
+        public static IApplicationBuilder UseAutorestCompliantSwagger(this IApplicationBuilder app, SwaggerConfig swaggerConfig, bool useSwaggerUI = true)
         {
             app.UseSwagger(options =>
             {
@@ -230,7 +230,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
                 return true;
             }
 
-            var currentDocApiVersion  = ApiVersion.Parse(docName);
+            var currentDocApiVersion = ApiVersion.Parse(docName);
             if (apiVersionRangeAttributes.Any(range =>
                 currentDocApiVersion >= range.FromVersion &&
                 (range.ToVersion == null || currentDocApiVersion < range.ToVersion)))
