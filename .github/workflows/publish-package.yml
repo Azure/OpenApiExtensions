@@ -22,7 +22,7 @@ jobs:
       - name: Publish Azure.OpenApiExtensions.csproj
         uses: brandedoutcast/publish-nuget@v2.5.2
         with:
-          PROJECT_FILE_PATH: src/Azure.OpenApiExtensions.csproj/Azure.OpenApiExtensions.csproj
+          PROJECT_FILE_PATH: src/OpenApiExtensions.csproj/OpenApiExtensions.csproj
           VERSION_FILE_PATH: src/Directory.Build.props
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           NUGET_SOURCE: https://api.nuget.org
