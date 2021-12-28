@@ -7,14 +7,9 @@
 
     <!-- NuGet package properties -->
     <AssemblyName>Microsoft.Azure.OpenApiExtensions</AssemblyName>
-    <Version>1.1.0</Version>
-    <Authors>romeambawolves@microsoft.com</Authors>
+    <PackageId>Microsoft.Azure.OpenApiExtensions</PackageId>            
     <Description>Microsoft.Azure.OpenApiExtensions</Description>
-    <Title>Microsoft.Azure.OpenApiExtensions</Title>
-    <Copyright>Copyright (c) Microsoft Corporation</Copyright>
-    <OutputType>Library</OutputType>    
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>    
+    <Title>Microsoft.Azure.OpenApiExtensions</Title>    
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
