@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BasicWebAppDemo</name>
+    </assembly>
+    <members>
+        <member name="M:BasicWebAppDemo.Controllers.WeatherForecastController.GetSpecificWeather(System.String,System.String,System.String)">
+            <summary>
+            Get a weather forecast From Summary
+            </summary>
+            <param name="someParam" example="someParam Example (not supported be swashbuckle)">Some Param from comments</param>
+            <param name="geo">Common Param</param>
+            <param name="id"></param>
+            <remarks>Som Remarks</remarks>
+            <returns></returns>
+        </member>
+        <member name="T:BasicWebAppDemo.V1.WeatherForecast">
+            <summary>
+            Some Descriptive Summary Description (Reflected on your XML Comment -> and Swashbuckle read the XmlDocumentation file and enrich the schamas , see https://github.com/domaindrivendev/Swashbuckle.AspNetCore#include-descriptions-from-xml-comments)
+            </summary>
+        </member>
+        <member name="P:BasicWebAppDemo.V1.WeatherForecast.Date">
+            <summary>
+            Get or sets DateTime (this is internal comment and not be shown on swagger, as we use here SwaggerSchema that overrides it )
+            </summary>
+        </member>
+        <member name="P:BasicWebAppDemo.V1.WeatherForecast.Properties">
+            <summary>
+            gets or sets props
+            </summary>
+            <example>gfgbf</example>
+        </member>
+        <member name="T:BasicWebAppDemo.V1.WeatherForecastNetanya">
+            <summary>
+            Som description!
+            </summary>    
+        </member>
+        <member name="P:BasicWebAppDemo.V2.WeatherForecast.Properties">
+            <summary>
+            gets or sets props
+            </summary>
+        </member>
+        <member name="P:BasicWebAppDemo.V2.WeatherForecast.Version">
+            <summary>
+            gets or sets props
+            </summary>
+        </member>
+        <member name="T:BasicWebAppDemo.V2.WeatherForecastNetanya">
+            <summary>
+            Som description!
+            </summary>    
+        </member>
+    </members>
+</doc>

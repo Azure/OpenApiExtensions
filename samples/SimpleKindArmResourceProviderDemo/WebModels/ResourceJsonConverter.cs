@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System;
 
-namespace ArmResourceProviderDemo.WebModels
+namespace SimpleKindArmResourceProviderDemo.WebModels
 {
     public interface IPropertiesHolder<TPropertiesBase>
     {

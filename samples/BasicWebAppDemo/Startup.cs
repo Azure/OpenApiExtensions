@@ -1,24 +1,27 @@
-using ArmResourceProviderDemo.WebModels;
-using ArmResourceProviderDemo.WebModels.Traffic;
-using ArmResourceProviderDemo.WebModels.Wind;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Azure.OpenApiExtensions.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNet.OData.Formatter;
+using Microsoft.Net.Http.Headers;
+using Microsoft.AspNet.OData.Query;
+using Microsoft.OpenApi.Models;
+using Microsoft.Azure.OpenApiExtensions.Options;
 
-namespace ArmResourceProviderDemo
+namespace BasicWebAppDemo
 {
     public class Startup
     {
-        private readonly SwaggerConfig _swaggerConfig;
         public IConfiguration Configuration { get; }
+
+        private readonly SwaggerConfig _swaggerConfig;
 
         public Startup(IConfiguration configuration)
         {
@@ -29,13 +32,13 @@ namespace ArmResourceProviderDemo
             var OdataReusableParameters = new List<string>() { "$filter", "$orderBy", "$skipToken", "$top" };
             _swaggerConfig = new SwaggerConfig
             {
-                PolymorphicSchemaModels = new List<Type> { typeof(TrafficResource), typeof(WindResource) },
+                PolymorphicSchemaModels = new List<Type> { typeof(V1.WeatherForecast), typeof(V2.WeatherForecast) },
                 ModelEnumsAsString = true,
                 GlobalCommonReusableParameters = new Dictionary<string, Microsoft.OpenApi.Models.OpenApiParameter>()
                 {
-                   { "SomeGlobalParam", new OpenApiParameter {
+                     { "SomeGlobalParam", new OpenApiParameter {
                                     Description = "SomGlobalParam Description",
-                                    Name = "testParamName",
+                                    Name = "geo",
                                     In = ParameterLocation.Path,
                                     Required = true,
                                     Schema = new OpenApiSchema()
@@ -49,36 +52,49 @@ namespace ArmResourceProviderDemo
                 ResourceProviderReusableParameters = OdataReusableParameters.Concat(new List<string> { "WorkspaceName" }).ToList(),
                 HideParametersEnabled = genarateExternalSwagger,
                 GenerateExternalSwagger = genarateExternalSwagger,
-                SupportedApiVersions = new[] { "v1" },
+                SupportedApiVersions = new[] { "2021-09-01-preview", "2022-01-01-preview", "2021-10-01" },
+                OverrideMappingTypeToSchema = new Dictionary<Type, Microsoft.OpenApi.Models.OpenApiSchema> { { typeof(ODataQueryOptions<>), new OpenApiSchema() } },
                 GlobalCommonFilePath = "../../../../../Global/types.json",
                 RPCommonFilePath = "../Demo/types.json",
-                Title = "Arm Resource Provider Demo App",
-                Description = "Arm Resource Provider Demo App",
-                ClientName = "ArmResourceProviderDemo"
+                Title = "Demo App",
+                Description = "Demo App",
+                ClientName = "DemoApp"
             };
         }
-
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson(c =>
+            services.AddApiVersioning(config =>
             {
-                c.SerializerSettings.Converters.Add(new ResourceJsonConverter<TrafficResource, TrafficBaseProperties>(
-                    new Dictionary<string, Type>
-                    {
-                        { "Israel", typeof(TrafficIsraelProperties)},
-                        { "India", typeof(TrafficIndiaProperties)}
-                    }));
-                c.SerializerSettings.Converters.Add(new ResourceJsonConverter<WindResource, WindBaseProperties>(
-                    new Dictionary<string, Type>
-                    {
-                        { "IsraelWindKind", typeof(WindIsraelProperties)},
-                        { "IndiaWindKind", typeof(WindIndiaProperties)}
-                    }));
+                // Specify the default API Version as 1.0
+                config.DefaultApiVersion = ApiVersion.Parse("2021-09-01-preview");
+                // If the client hasn't specified the API version in the request, use the default API version number 
+                config.AssumeDefaultVersionWhenUnspecified = true;
+                // Advertise the API versions supported for the particular endpoint
+                config.ReportApiVersions = true;
             });
-            services.AddAutorestCompliantSwagger(_swaggerConfig);
 
+            services.AddOData();
+
+            services
+                .AddControllers(options =>
+                {
+                    // workaround till we migrate to .net5 or greater/upgrade the odata nuget https://github.com/OData/WebApi/issues/1177#issuecomment-358659774
+
+                    foreach (var outputFormatter in options.OutputFormatters.OfType<ODataOutputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+                    {
+                        outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                    }
+                    foreach (var inputFormatter in options.InputFormatters.OfType<ODataInputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+                    {
+                        inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+                    }
+
+                })
+                .AddNewtonsoftJson();
+
+            services.AddAutorestCompliantSwagger(_swaggerConfig);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,6 +104,8 @@ namespace ArmResourceProviderDemo
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseApiVersioning();
+
 
             app.UseSwagger(options =>
             {
@@ -113,6 +131,7 @@ namespace ArmResourceProviderDemo
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.EnableDependencyInjection();
             });
         }
     }

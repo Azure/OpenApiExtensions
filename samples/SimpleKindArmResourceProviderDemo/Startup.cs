@@ -1,6 +1,6 @@
-using ArmResourceProviderDemo.WebModels;
-using ArmResourceProviderDemo.WebModels.Traffic;
-using ArmResourceProviderDemo.WebModels.Wind;
+using SimpleKindArmResourceProviderDemo.WebModels;
+using SimpleKindArmResourceProviderDemo.WebModels.Traffic;
+using SimpleKindArmResourceProviderDemo.WebModels.Wind;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.OpenApiExtensions.Options;
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace ArmResourceProviderDemo
+namespace SimpleKindArmResourceProviderDemo
 {
     public class Startup
     {
@@ -54,7 +54,7 @@ namespace ArmResourceProviderDemo
                 RPCommonFilePath = "../Demo/types.json",
                 Title = "Arm Resource Provider Demo App",
                 Description = "Arm Resource Provider Demo App",
-                ClientName = "ArmResourceProviderDemo"
+                ClientName = "SimpleKindArmResourceProviderDemo"
             };
         }
 
@@ -64,18 +64,6 @@ namespace ArmResourceProviderDemo
         {
             services.AddControllers().AddNewtonsoftJson(c =>
             {
-                c.SerializerSettings.Converters.Add(new ResourceJsonConverter<TrafficResource, TrafficBaseProperties>(
-                    new Dictionary<string, Type>
-                    {
-                        { "Israel", typeof(TrafficIsraelProperties)},
-                        { "India", typeof(TrafficIndiaProperties)}
-                    }));
-                c.SerializerSettings.Converters.Add(new ResourceJsonConverter<WindResource, WindBaseProperties>(
-                    new Dictionary<string, Type>
-                    {
-                        { "IsraelWindKind", typeof(WindIsraelProperties)},
-                        { "IndiaWindKind", typeof(WindIndiaProperties)}
-                    }));
             });
             services.AddAutorestCompliantSwagger(_swaggerConfig);
 
@@ -89,22 +77,7 @@ namespace ArmResourceProviderDemo
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger(options =>
-            {
-                options.RouteTemplate = "swagger/{documentName}/swagger.json";
-                // Change generated swagger version to 2.0
-                options.SerializeAsV2 = true;
-            });
-
-            app.UseSwaggerUI(option =>
-            {
-                IEnumerable<string> actualDocumentsToGenerate = _swaggerConfig.SupportedApiVersions;
-                if (actualDocumentsToGenerate == null || !actualDocumentsToGenerate.Any())
-                {
-                    actualDocumentsToGenerate = new[] { _swaggerConfig.DefaultApiVersion };
-                }
-                actualDocumentsToGenerate.ToList().ForEach(v => option.SwaggerEndpoint($"/swagger/{v}/swagger.json", v));
-            });
+            app.UseAutorestCompliantSwagger(_swaggerConfig);
 
             app.UseRouting();
 
