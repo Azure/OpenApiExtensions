@@ -1,9 +1,13 @@
-﻿using ArmResourceProviderDemo.WebModels.Traffic;
+﻿using SimpleKindArmResourceProviderDemo.WebModels;
+using SimpleKindArmResourceProviderDemo.WebModels.Traffic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ArmResourceProviderDemo.Controllers
+namespace SimpleKindArmResourceProviderDemo.Controllers
 {
     [ApiController]
     [Route("[controller]")]
