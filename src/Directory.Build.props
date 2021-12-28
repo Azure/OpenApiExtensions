@@ -1,11 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    
-    <!-- NuGet package properties -->    
-    <Version>2.0.0</Version>
-    <Authors>amirsasson@microsoft.com</Authors>
+<Project>
+  <PropertyGroup>        
+    <!-- NuGet package properties -->
+    <Company>Microsoft</Company>    
+    <Authors>Microsoft Azure Sentinal Team</Authors>
+    <Version>2.0.0</Version>    
     <Description>Microsoft.Azure.OpenApiExtensions</Description>
     <Title>Microsoft.Azure.OpenApiExtensions</Title>
     <Copyright>Copyright (c) Microsoft Corporation</Copyright>
