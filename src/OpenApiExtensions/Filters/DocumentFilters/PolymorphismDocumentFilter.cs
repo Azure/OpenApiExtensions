@@ -28,7 +28,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters
         /// <inheritdoc/>
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
-            foreach (Type abstractType in this.baseTypes)
+            foreach (Type abstractType in baseTypes)
             {
                 RegisterSubClasses(swaggerDoc, context.SchemaRepository, context.SchemaGenerator, abstractType);
             }
@@ -113,7 +113,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters
                     {
                         if (inheritedKvp.Value.InnerPropertyClassType != null)
                         {
-                            AmirGenerateInheritanceParent(schemaRegistry, schemaGenerator, swaggerVirtualInheritanceAttribute, inheritedKvp);
+                            GenerateInheritanceParent(schemaRegistry, schemaGenerator, swaggerVirtualInheritanceAttribute, inheritedKvp);
                         }
                         else
                         {
@@ -128,38 +128,11 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters
 
         private void GenerateInheritanceParent(SchemaRepository schemaRegistry, ISchemaGenerator schemaGenerator, SwaggerVirtualInheritancesAttribute swaggerVirtualInheritanceAttribute, KeyValuePair<string, VirtuallyInheritedObjectProperties> derivedType)
         {
-            schemaGenerator.GenerateSchema(derivedType.Value.InheritesClassType, schemaRegistry);
-
-            schemaRegistry.TryGetIdFor(derivedType.Value.InheritesClassType, out string id);
-            OpenApiSchema derivedSchema = schemaRegistry.Schemas[id];
-            var newSchemaName = derivedType.Value.InheritesClassName;
-            if (!schemaRegistry.Schemas.ContainsKey(newSchemaName))
-            {
-                schemaRegistry.GetOrAdd(GetTempTypeToBind(derivedType.Value.InheritesClassName), newSchemaName, () =>
-                {
-                    string discriminatorValue = derivedType.Key.ToString();
-                    OpenApiSchema newSchema = new OpenApiSchema();
-                    newSchema.Description = derivedType.Value.InheritesClassDescription?.Length > 0 ? derivedType.Value.InheritesClassDescription : null;
-
-                    newSchema.AllOf = new List<OpenApiSchema> { new OpenApiSchema { Reference = new OpenApiReference { ExternalResource = $"#/definitions/{swaggerVirtualInheritanceAttribute.InheritedFromName}" } } };
-                    newSchema.Properties.Add("properties", BuildInnerProperty(derivedType, newSchemaName));
-
-                    //newSchema.AdditionalPropertiesAllowed = true;
-                    //newSchema.AdditionalProperties = BuildPropertiesProperty(derivedType, newSchemaName);
-                    newSchema.Extensions.Add("x-ms-discriminator-value", new OpenApiString(discriminatorValue));
-                    newSchema.Type = "object";
-                    return newSchema;
-                });
-            }
-        }
-
-        private void AmirGenerateInheritanceParent(SchemaRepository schemaRegistry, ISchemaGenerator schemaGenerator, SwaggerVirtualInheritancesAttribute swaggerVirtualInheritanceAttribute, KeyValuePair<string, VirtuallyInheritedObjectProperties> derivedType)
-        {
             var inheritanceProperties = derivedType.Value;
             var newSchemaName = inheritanceProperties.InheritesClassName;
             if (!schemaRegistry.Schemas.ContainsKey(newSchemaName))
             {
-                schemaRegistry.GetOrAdd(GetTempTypeToBindAmir(inheritanceProperties.InnerPropertyClassType), newSchemaName, () =>
+                schemaRegistry.GetOrAdd(GetTempTypeToBind(inheritanceProperties.InnerPropertyClassType), newSchemaName, () =>
                 {
                     string discriminatorValue = derivedType.Key.ToString();
                     OpenApiSchema newSchema = new OpenApiSchema();
@@ -186,21 +159,8 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters
             property.Extensions.Add("$ref", new OpenApiString($"#/definitions/{derivedType.Value.InnerPropertyClassName}"));
             return property;
         }
-
-        private static Type GetTempTypeToBind(string id)
-        {
-            AssemblyName aName = new AssemblyName("DynamicAssemblyExample");
-            AssemblyBuilder ab = AssemblyBuilder.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
-            ModuleBuilder mb = ab.DefineDynamicModule("mocktypes");
-
-            // For a single-module assembly, the module name is usually
-            // the assembly name plus an extension.*/
-            TypeBuilder tb = mb.DefineType(
-            $"MyDynamicType{id}",
-             TypeAttributes.Public);
-            return tb.CreateType();
-        }
-        private static Type GetTempTypeToBindAmir(Type type)
+     
+        private static Type GetTempTypeToBind(Type type)
         {
             Type concreteTemplateType = typeof(DummyTemplate<>);
             Type uniqueType = concreteTemplateType.MakeGenericType(type);

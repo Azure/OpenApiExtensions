@@ -8,10 +8,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 		.dockerignore = .dockerignore
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
 		SomeWebApp\.config\dotnet-tools.json = SomeWebApp\.config\dotnet-tools.json
 		global.json = global.json
 		NuGet.Config = NuGet.Config
 		README.md = README.md
+		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArmResourceProviderDemo", "samples\ArmResourceProviderDemo\ArmResourceProviderDemo.csproj", "{EFB66B7C-A236-4557-8B41-2CCC34D27EA0}"
@@ -23,6 +25,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicWebAppDemo", "samples\BasicWebAppDemo\BasicWebAppDemo.csproj", "{876DEB56-964B-496B-9DAE-4E1FDA5C906F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleKindArmResourceProviderDemo", "samples\SimpleKindArmResourceProviderDemo\SimpleKindArmResourceProviderDemo.csproj", "{A2118CB4-45DF-47ED-B257-D2B2C4BB8E3A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B41E590F-8952-40FC-8625-1A4FA7F52D63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenApiExtensions.Test", "tests\OpenApiExtensions.Test\OpenApiExtensions.Test.csproj", "{17BD1A97-D83A-4E61-9F3E-1F0C7407FF6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +52,10 @@ Global
 		{A2118CB4-45DF-47ED-B257-D2B2C4BB8E3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2118CB4-45DF-47ED-B257-D2B2C4BB8E3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2118CB4-45DF-47ED-B257-D2B2C4BB8E3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17BD1A97-D83A-4E61-9F3E-1F0C7407FF6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17BD1A97-D83A-4E61-9F3E-1F0C7407FF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17BD1A97-D83A-4E61-9F3E-1F0C7407FF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17BD1A97-D83A-4E61-9F3E-1F0C7407FF6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +64,7 @@ Global
 		{EFB66B7C-A236-4557-8B41-2CCC34D27EA0} = {2EDC176C-BCDE-4759-9EDD-1B0CE23FE1FB}
 		{876DEB56-964B-496B-9DAE-4E1FDA5C906F} = {2EDC176C-BCDE-4759-9EDD-1B0CE23FE1FB}
 		{A2118CB4-45DF-47ED-B257-D2B2C4BB8E3A} = {2EDC176C-BCDE-4759-9EDD-1B0CE23FE1FB}
+		{17BD1A97-D83A-4E61-9F3E-1F0C7407FF6A} = {B41E590F-8952-40FC-8625-1A4FA7F52D63}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB57A47A-27F7-48FB-843C-6DBE052B81E6}

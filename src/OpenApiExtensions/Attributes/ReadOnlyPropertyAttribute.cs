@@ -14,7 +14,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
         /// <param name="isReadOnlyProperty">true to show that the property this attribute is bound to is read-only.</param>
         public ReadOnlyPropertyAttribute(bool isReadOnlyProperty)
         {
-            this.IsReadOnlyProperty = isReadOnlyProperty;
+            IsReadOnlyProperty = isReadOnlyProperty;
         }
 
         /// <summary>

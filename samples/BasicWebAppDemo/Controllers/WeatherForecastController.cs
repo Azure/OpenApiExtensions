@@ -15,7 +15,7 @@ namespace BasicWebAppDemo.Controllers
     [ApiController]
     [Route("WeatherForecast")]
     [ApiVersion("2021-09-01-preview")]
-    [ApiVersionRange(fromVersion: "2021-09-01-preview", toVersion: "2022-01-01-preview")]
+    [SwaggerApiVersionRange(fromVersion: "2021-09-01-preview", toVersion: "2022-01-01-preview")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -54,9 +54,9 @@ namespace BasicWebAppDemo.Controllers
             Tags = new[] { "forecast" })]
         [SwaggerResponse(200, "The WeatherForecast was fetched", typeof(IEnumerable<WeatherForecast>))]
         [SwaggerResponse(400, "invalid request")]
-        //[SwaggerResponseExample(200, typeof(StringResponseExample))]
         [ResponseExample(200, typeof(ArrayWeatherForecastExample))]
         [RequestExample(typeof(GetWeatherForecastRequestExample))]
+        [Example("myfolder","sometitle")]
         [HttpGet]
         public IEnumerable<WeatherForecast> GetWeather([FromQuery, SwaggerParameter("WeatherForecast Id", Required = true)] string id)
         {

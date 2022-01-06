@@ -14,7 +14,7 @@ namespace BasicWebAppDemo.Controllers
     [ApiController]
     [Route("WeatherForecast")]
     [ApiVersion("2022-01-01-preview")]
-    [ApiVersionRange(fromVersion: "2022-01-01-preview")]
+    [SwaggerApiVersionRange(fromVersion: "2022-01-01-preview")]
     public class WeatherForecastV2Controller : ControllerBase
     {
         private static readonly string[] Summaries = new[]

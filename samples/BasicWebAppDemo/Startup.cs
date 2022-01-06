@@ -14,6 +14,8 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.OpenApi.Models;
 using Microsoft.Azure.OpenApiExtensions.Options;
+using ParameterName = System.String;
+using ActualParameterName = System.String;
 
 namespace BasicWebAppDemo
 {
@@ -29,7 +31,13 @@ namespace BasicWebAppDemo
 
             var genarateInternalSwagger = Environment.GetCommandLineArgs().Contains("--internal-swagger");
             var genarateExternalSwagger = !genarateInternalSwagger;
-            var OdataReusableParameters = new List<string>() { "$filter", "$orderBy", "$skipToken", "$top" };
+            var OdataReusableParameters = new List<KeyValuePair<ParameterName, ActualParameterName>>() {
+                new KeyValuePair<ParameterName, ParameterName>("$filter", "ODataFilter"),
+                new KeyValuePair<ParameterName, ParameterName>("$orderBy", "ODataOrderBy"),
+                new KeyValuePair<ParameterName, ParameterName>("$skipToken", "ODataSkipToken"),
+                new KeyValuePair<ParameterName, ParameterName>("$top", "ODataTop"),
+                new KeyValuePair<ParameterName, ParameterName>("$skip", "ODataSkip"),
+            };
             _swaggerConfig = new SwaggerConfig
             {
                 PolymorphicSchemaModels = new List<Type> { typeof(V1.WeatherForecast), typeof(V2.WeatherForecast) },
@@ -49,7 +57,10 @@ namespace BasicWebAppDemo
                         }
                     }
                 },
-                ResourceProviderReusableParameters = OdataReusableParameters.Concat(new List<string> { "WorkspaceName" }).ToList(),
+                ResourceProviderReusableParameters = OdataReusableParameters.Concat(
+                    new List<KeyValuePair<ParameterName, ActualParameterName>> {
+                        new KeyValuePair<ParameterName, ActualParameterName>("WorkspaceName", "WorkspaceName") })
+                .ToList(),
                 HideParametersEnabled = genarateExternalSwagger,
                 GenerateExternalSwagger = genarateExternalSwagger,
                 SupportedApiVersions = new[] { "2021-09-01-preview", "2022-01-01-preview", "2021-10-01" },
@@ -94,7 +105,7 @@ namespace BasicWebAppDemo
                 })
                 .AddNewtonsoftJson();
 
-            services.AddAutorestCompliantSwagger(_swaggerConfig);
+            services.AddArmCompliantSwagger(_swaggerConfig);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

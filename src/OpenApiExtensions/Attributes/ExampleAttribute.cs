@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Microsoft.Azure.OpenApiExtensions.Attributes
 {
@@ -11,8 +11,9 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
     public class ExampleAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExamplesAttribute"/> class.
+        /// Initializes a new instance of the.
         /// </summary>
+        /// <param name="folder"></param>
         /// <param name="title">OperationId Eg: DerivedModels_Get.</param>
         public ExampleAttribute(string folder, string title)
         {
@@ -21,8 +22,8 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
                 throw new ArgumentNullException(nameof(title));
             }
 
-            this.Title = title;
-            this.FilePath = $"{folder}/" + title;
+            Title = title;
+            FilePath = $"{folder}/" + title;
         }
 
         /// <summary>

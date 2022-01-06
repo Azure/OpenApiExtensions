@@ -20,7 +20,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
 {
     public static class OpenApiOptionsExtension
     {
-        public static IServiceCollection AddAutorestCompliantSwagger(this IServiceCollection services, SwaggerConfig config)
+        public static IServiceCollection AddArmCompliantSwagger(this IServiceCollection services, SwaggerConfig config)
         {
             config.EnsureValidity();
 
@@ -58,7 +58,10 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
                 {
                     //   c.UseInlineDefinitionsForEnums(); // we prefer commonize enums
                 }
-                //c.UseAllOfToExtendReferenceSchemas(); // we prefer $ref over AllOf (and set up description ourselves)
+                if (config.UseAllOfToExtendReferenceSchemas)
+                {
+                    c.UseAllOfToExtendReferenceSchemas(); // we prefer $ref over AllOf (and set up description ourselves)                    
+                }
                 c.DocInclusionPredicate((docName, apiDesc) => DocumentApiInclusion(config, docName, apiDesc));
 
                 if (config.GenerateExternalSwagger)
@@ -168,7 +171,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
             return services;
         }
 
-        public static IApplicationBuilder UseAutorestCompliantSwagger(this IApplicationBuilder app, SwaggerConfig swaggerConfig, bool useSwaggerUI = true)
+        public static IApplicationBuilder UseArmCompliantSwagger(this IApplicationBuilder app, SwaggerConfig swaggerConfig, bool useSwaggerUI = true)
         {
             app.UseSwagger(options =>
             {
@@ -219,7 +222,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
             // this filters apiEndpoints per api-version
             var metadata = apiDesc.ActionDescriptor.EndpointMetadata;
             var apiVersionAttributes = metadata.Where(x => x.GetType() == typeof(ApiVersionAttribute)).Cast<ApiVersionAttribute>();
-            var apiVersionRangeAttributes = metadata.Where(x => x.GetType() == typeof(ApiVersionRangeAttribute)).Cast<ApiVersionRangeAttribute>();
+            var apiVersionRangeAttributes = metadata.Where(x => x.GetType() == typeof(SwaggerApiVersionRangeAttribute)).Cast<SwaggerApiVersionRangeAttribute>();
 
             var endpointMappedApiVersionsAttributes = metadata.Where(x => x.GetType() == typeof(MapToApiVersionAttribute)).Cast<MapToApiVersionAttribute>();
             if (!apiVersionAttributes.Any() &&
@@ -250,22 +253,21 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
 
         internal static string DefaultSchemaIdSelector(Type modelType)
         {
-            var customNaming = modelType.GetCustomAttribute<SwaggerSchemaNameStrategyAttribute>();
-
             // check if generic paramater has custom naming
             if (modelType.IsConstructedGenericType)
             {
                 var firstGenericArgType = modelType.GetGenericArguments()[0];
-                var customGenericParamNaming = firstGenericArgType.GetCustomAttribute<SwaggerSchemaNameStrategyAttribute>();
-                if (customGenericParamNaming != null && customGenericParamNaming.NamingStrategy == NamingStrategy.ApplyToParentWrapper)
+                var applyToParentGenericParamNaming = firstGenericArgType.GetCustomAttributes<SwaggerSchemaNameStrategyAttribute>().SingleOrDefault(at => at.NamingStrategy == NamingStrategy.ApplyToParentWrapper);
+                if (applyToParentGenericParamNaming != null)
                 {
-                    return customGenericParamNaming.CustomNameProvider.GetCustomName(modelType);
+                    return applyToParentGenericParamNaming.CustomNameProvider.GetCustomName(modelType);
                 }
             }
 
-            if (customNaming != null && customNaming.NamingStrategy == NamingStrategy.Custom)
+            var customNamingAttribute = modelType.GetCustomAttributes<SwaggerSchemaNameStrategyAttribute>().SingleOrDefault(at => at.NamingStrategy == NamingStrategy.Custom);
+            if (customNamingAttribute != null)
             {
-                return customNaming.CustomNameProvider.GetCustomName(modelType);
+                return customNamingAttribute.CustomNameProvider.GetCustomName(modelType);
             }
 
             if (!modelType.IsConstructedGenericType)

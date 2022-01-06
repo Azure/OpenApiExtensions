@@ -8,7 +8,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Helpers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="modelType">Type Must be generic and have a single generic Arg</param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public string GetCustomName(Type type)
         {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
     /// <summary>
     /// Adds x-ms-examples extention to every opertaion. Must run after SetOperationIdFilter.
     /// By default, it will add ./examples/{RelativePath}/{opetationId}.json to all the operations.
-    /// Additional examples can be added using <see cref="ExamplesAttribute"/>.
+    /// Additional examples can be added using <see cref="ExampleAttribute"/>.
     /// Eg: <code>
     /// "x-ms-examples": {
     ///     "DerivedModels_ListBySubscription": {
@@ -29,7 +29,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
     /// <see href="https://github.com/Azure/autorest/tree/master/docs/extensions#x-ms-examples">x-ms-examples.</see>
     public class ExampleFilter : IDocumentFilter
     {
-        private SwaggerConfig _config;
+        private readonly SwaggerConfig _config;
         public const string ExamplesFolderPath = "./examples/";
 
         public ExampleFilter(SwaggerConfig config)
@@ -41,7 +41,8 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
         /// Applies filter.
         /// </summary>
         /// <param name="operation">OpenApiOperation.</param>
-        /// <param name="context">DocumentFilterContext.</param>
+        /// <param name="apiDescription"></param>
+        /// <param name="info"></param>
         public void ApplyWithVersion(OpenApiOperation operation, ApiDescription apiDescription, OpenApiInfo info)
         {
             if (_config.GenerateExternalSwagger)
@@ -91,9 +92,9 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
                 if (requestExampleAttributes.Any())
                 {
                     var requestExample = requestExampleAttributes.First().ExampleProviderInstance.GetExample();
-                    if ((requestExample as BasicAsiRequestExample) != null && ((BasicAsiRequestExample)requestExample).ApiVersion == null)
+                    if ((requestExample as IApiVersionableRequestExample) != null && ((IApiVersionableRequestExample)requestExample).ApiVersion == null)
                     {
-                        ((BasicAsiRequestExample)requestExample).ApiVersion = docName;
+                        ((IApiVersionableRequestExample)requestExample).ApiVersion = docName;
                     }
                     exampleObj.Parameters = requestExample;
                 }

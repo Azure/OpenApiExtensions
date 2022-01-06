@@ -349,3 +349,5 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 samples/**/Docs/OpenApiSpecs/**
+/samples/SimpleKindArmResourceProviderDemo/SimpleKindArmResourceProviderDemo.xml
+/samples/ArmResourceProviderDemo/ArmResourceProviderDemo.xml

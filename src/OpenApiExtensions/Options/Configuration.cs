@@ -13,10 +13,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="Configuration"/> class.
         /// </summary>
-        /// <param name="info">Document info section details.</param>
-        /// <param name="xmlCommentsFileNames">Xml comment file name.</param>
-        /// <param name="reusableParameters">Resuable parameters.</param>
-        /// <param name="polymorphicTypes">List of polymorphic types.</param>
+        /// <param name="info">Document info section details.</param>        
         public Configuration(OpenApiDocumentInfo info)
         {
             if (info == null)
@@ -24,7 +21,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
                 throw new ArgumentNullException(nameof(info), "Can not be null.");
             }
 
-            this._info = info;
+            _info = info;
         }
     
         /// <summary>
@@ -38,7 +35,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         /// <returns>Api version.</returns>
         public string GetVersion()
         {
-            return this._info.Version;
+            return _info.Version;
         }
 
         /// <summary>
@@ -49,14 +46,14 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         {
             return new OpenApiInfo
             {
-                Title = this._info.Title,
-                Version = this._info.Version,
-                Description = this._info.Description,
+                Title = _info.Title,
+                Version = _info.Version,
+                Description = _info.Description,
                 Extensions =
                 {
                     ["x-ms-code-generation-settings"] = new OpenApiObject
                     {
-                        ["name"] = new OpenApiString(this._info.ClientName),
+                        ["name"] = new OpenApiString(_info.ClientName),
                     },
                 },
             };

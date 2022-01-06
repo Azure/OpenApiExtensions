@@ -16,7 +16,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
         /// <param name="parent"></param>
         public SubTypeOfAttribute(Type parent)
         {
-            this.Parent = parent;
+            Parent = parent;
         }
 
         /// <summary>

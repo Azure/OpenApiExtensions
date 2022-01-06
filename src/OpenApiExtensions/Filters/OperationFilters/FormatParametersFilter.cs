@@ -43,7 +43,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
         /// <param name="context">DocumentFilterContext.</param>
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            var referencesByName = this.GetParameterReferenceByName();
+            var referencesByName = GetParameterReferenceByName();
 
             var ignoredParamAttrs = context?.ApiDescription.CustomAttributes().OfType<IgnoredParametersAttribute>().FirstOrDefault();
             IList<OpenApiParameter> newParameters = new List<OpenApiParameter>();
@@ -88,7 +88,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
         {
             var parameterReferences = new Dictionary<string, OpenApiParameter>();
 
-            foreach (KeyValuePair<string, OpenApiParameter> keyValuePair in this.parameters)
+            foreach (KeyValuePair<string, OpenApiParameter> keyValuePair in parameters)
             {
                 parameterReferences.Add(
                     keyValuePair.Value.Name,
