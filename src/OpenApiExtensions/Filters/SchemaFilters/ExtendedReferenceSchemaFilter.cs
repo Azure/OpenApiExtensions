@@ -30,7 +30,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.SchemaFilters
                 {
                     if (property.Value.AllOf != null && property.Value.AllOf.Count == 1)
                     {
-                        if (this.IsReferenceToPolymorphicType(property.Value.AllOf[0]))
+                        if (IsReferenceToPolymorphicType(property.Value.AllOf[0]))
                         {
                             property.Value.Reference = new OpenApiReference { Type = ReferenceType.Schema, Id = property.Value.AllOf[0].Reference.Id };
                             property.Value.AllOf = null;
@@ -44,7 +44,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.SchemaFilters
         {
             if (schema.Reference != null)
             {
-                foreach (var baseType in this.baseTypes)
+                foreach (var baseType in baseTypes)
                 {
                     if (baseType.Name.Equals(schema.Reference.Id, StringComparison.InvariantCultureIgnoreCase))
                     {

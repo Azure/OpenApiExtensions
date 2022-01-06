@@ -1,0 +1,48 @@
+<Project>
+  <!-- Can be renamed to Directory.Build.props when migrating all projects in src folder to netcore3.1 or higher -->
+  <PropertyGroup>
+    <Company>Microsoft</Company>
+    <Copyright>@Microsoft Corporation. All right reserved</Copyright>
+    <Authors>Microsoft Azure Sentinal Team</Authors>
+  </PropertyGroup>
+
+
+  <!-- CODE ANALYSIS -->
+  <PropertyGroup>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Nullable>disable</Nullable>
+    <CodeAnalysisRuleSet>$(SolutionDir)/common.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>618,1030</WarningsNotAsErrors>
+    <!-- see CS618,CS1030 -->
+  </PropertyGroup>
+
+  <ItemGroup Label="roslyn analyzers">
+    <!-- for (CAxxxx) https://github.com/dotnet/roslyn-analyzers -->
+
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
+      <!-- You do not need to manually install this NuGet package to your project if you are using .NET5 SDK or later. These analyzers are enabled by default for projects targeting .NET5 or later.    -->
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.2">
+      <!-- more info https://github.com/dotnet/roslyn-analyzers#microsoftcodeanalysisanalyzers -->
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Label="Stylecop">
+    <AdditionalFiles Include="$(SolutionDir)/stylecop.json" />
+    <!-- Extra 3rd party analyzer https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/DOCUMENTATION.md can be controled on -->
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+
+  </ItemGroup>
+</Project>

@@ -36,7 +36,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
                 throw new ArgumentNullException(nameof(context));
             }
 
-
             // A 'POST' operation with x-ms-long-running-operation extension must have a valid terminal success status code 200 or 201 or 204.
             // API that responds only 202 cannot marked as `x-ms-long-running-operation`. Make sure API responds 202 also responds 200 and/or 201 and/or 204.
             var longRunningOperationAttributes = context.ApiDescription.CustomAttributes().OfType<LongRunningOperationAttribute>();

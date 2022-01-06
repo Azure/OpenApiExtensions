@@ -1,21 +1,13 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-
-namespace ArmResourceProviderDemo.WebModels.Traffic
+﻿namespace ArmResourceProviderDemo.WebModels.Traffic
 {
     public class TrafficBaseProperties
     {
-
         public int BaseProperty { get; set; }
     }
-
 
     public class TrafficIsraelProperties : TrafficBaseProperties
     {
         public int IsraelProperty { get; set; }
-
     }
 
     public class TrafficIndiaProperties : TrafficBaseProperties

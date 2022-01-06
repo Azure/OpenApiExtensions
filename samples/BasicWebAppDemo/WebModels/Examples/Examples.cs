@@ -1,8 +1,8 @@
-﻿using BasicWebAppDemo.V1;
+﻿using System;
+using System.Linq;
+using BasicWebAppDemo.V1;
 using BasicWebAppDemo.WebModels.Common;
 using Microsoft.Azure.OpenApiExtensions.Helpers;
-using System;
-using System.Linq;
 
 namespace BasicWebAppDemo.WebModels.Examples
 {
@@ -21,10 +21,8 @@ namespace BasicWebAppDemo.WebModels.Examples
                             Summary = "Some summary1",
                             Properties = new SomeObj { MyProperty = 1, MyPropertyStr = "str" }
                         })
-
             };
         }
-
     }
 
     public class WeatherForecastExample : BaseExamplesProvider<WeatherForecastNetanya>

@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 
 namespace Microsoft.Azure.OpenApiExtensions.Options
-
 {
     /// <summary>
     /// Corresponds to openAPI document info section.
@@ -37,10 +36,10 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
                 throw new ArgumentNullException(nameof(clientName), "Can not be null or empty.");
             }
 
-            this.Title = title;
-            this.Description = description;
-            this.Version = version;
-            this.ClientName = clientName;
+            Title = title;
+            Description = description;
+            Version = version;
+            ClientName = clientName;
         }
 
         /// <summary>

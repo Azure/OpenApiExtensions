@@ -38,10 +38,10 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
                     // TODO throw a exception.
                     var mediaType = operation.RequestBody.Content[MediaTypeNames.Application.Json];
 
-                    // removing default contentType "Application-Json" 
+                    // removing default contentType "Application-Json"
                     // if we are adding other contentTypes via attribute in the operation.
                     operation.RequestBody.Content.Remove(MediaTypeNames.Application.Json);
-                    
+
                     foreach (var contentType in consumesAttr.ContentTypes)
                     {
                         operation.RequestBody.Content.Add(contentType, mediaType);

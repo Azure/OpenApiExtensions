@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.OpenApiExtensions.Attributes;
@@ -9,15 +9,15 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
 {
     /// <summary>
-    /// A conditional operation filter to hide an API paramater .    
+    /// A conditional operation filter to hide an API paramater .
     /// </summary>
     public class HideParamInDocsFilter : IOperationFilter
     {
         private readonly SwaggerConfig _config;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HideInDocsFilter"/> class.
-        /// </summary>       
+        /// Initializes a new instance of the <see cref="HideParamInDocsFilter"/> class.
+        /// </summary>
         public HideParamInDocsFilter(SwaggerConfig config)
         {
             _config = config;
@@ -40,9 +40,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
                         var p = operation.Parameters.FirstOrDefault(p => p.Name?.ToLower() == name.ToLower());
                         operation.Parameters.Remove(p);
                     }
-
                 }
-
             }
         }
     }

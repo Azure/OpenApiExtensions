@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SimpleKindArmResourceProviderDemo.WebModels
 {
@@ -9,6 +9,7 @@ namespace SimpleKindArmResourceProviderDemo.WebModels
     {
         TPropertiesBase Properties { get; set; }
     }
+
     public class ResourceJsonConverter<TContainer, TPropertiesBase> : JsonConverter
         where TContainer : IPropertiesHolder<TPropertiesBase>
         where TPropertiesBase : class
@@ -19,6 +20,7 @@ namespace SimpleKindArmResourceProviderDemo.WebModels
         {
             _kindToTypeMapping = kindToTypeMapping;
         }
+
         public override bool CanConvert(Type objectType) => objectType == typeof(TContainer);
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -37,6 +39,7 @@ namespace SimpleKindArmResourceProviderDemo.WebModels
 
             throw new JsonSerializationException($"Could not find the concrete type of {typeof(TPropertiesBase).Name} with kind: [{resouceKindString}]");
         }
+
         public override bool CanWrite => false;
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

@@ -35,9 +35,9 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
         /// <param name="context">DocumentFilterContext.</param>
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
-            if (swaggerDoc != null && this.parameters != null && this.parameters.Count > 0)
+            if (swaggerDoc != null && parameters != null && parameters.Count > 0)
             {
-                swaggerDoc.Components.Parameters = CreateReusableParameters(this.parameters);
+                swaggerDoc.Components.Parameters = CreateReusableParameters(parameters);
             }
         }
 

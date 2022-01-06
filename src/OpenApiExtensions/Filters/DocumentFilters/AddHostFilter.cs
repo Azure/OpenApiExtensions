@@ -1,4 +1,4 @@
-﻿using Microsoft.Azure.OpenApiExtensions.Options;
+using Microsoft.Azure.OpenApiExtensions.Options;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -16,6 +16,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
         {
             _config = config;
         }
+
         /// <summary>
         /// Applies filter.
         /// </summary>

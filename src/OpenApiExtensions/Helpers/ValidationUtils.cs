@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Microsoft.Azure.OpenApiExtensions.Helpers
@@ -33,20 +32,17 @@ namespace Microsoft.Azure.OpenApiExtensions.Helpers
 
         private static bool IsGenericTypeMatch(Type genericType, Type candidateType)
         {
-            
             if (candidateType.IsGenericType && candidateType.GetTypeInfo().GenericTypeArguments[0].FullName.Equals(genericType.FullName))
             {
                 return true;
             }
-            
+
             if (candidateType.BaseType == null)
             {
                 return false;
             }
 
-            return IsGenericTypeMatch(genericType,candidateType.BaseType);
-
-                
+            return IsGenericTypeMatch(genericType, candidateType.BaseType);
         }
 
         private static bool IsAssignableToGenericType(Type givenType, Type genericType)

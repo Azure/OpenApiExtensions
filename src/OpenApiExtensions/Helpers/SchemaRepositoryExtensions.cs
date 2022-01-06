@@ -5,7 +5,6 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Microsoft.Azure.OpenApiExtensions.Helpers
 {
-
     public static class SchemaRepositoryExtensions
     {
         public static OpenApiSchema GetOrAdd(this SchemaRepository repo, Type type, string schemaId, Func<OpenApiSchema> factoryMethod)

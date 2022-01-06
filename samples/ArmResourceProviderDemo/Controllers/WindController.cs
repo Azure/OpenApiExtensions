@@ -1,11 +1,7 @@
-﻿using ArmResourceProviderDemo.WebModels;
+﻿using System.Collections.Generic;
 using ArmResourceProviderDemo.WebModels.Wind;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ArmResourceProviderDemo.Controllers
 {

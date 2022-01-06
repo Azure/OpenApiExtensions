@@ -15,7 +15,7 @@
       "commandLineArgs": "--internal-swagger",
       "launchBrowser": true,
       "launchUrl": "swagger/v1/swagger.json",
-      "applicationUrl": "http://localhost:8010",
+      "applicationUrl": "http://127.0.0.1:8010",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -1,6 +1,6 @@
-﻿using Microsoft.Azure.OpenApiExtensions.Attributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.Azure.OpenApiExtensions.Attributes;
 
 namespace ArmResourceProviderDemo.WebModels.Traffic
 {
@@ -12,8 +12,8 @@ namespace ArmResourceProviderDemo.WebModels.Traffic
             Type concreteTemplateType = typeof(VirtualInheritecePropertiesWrapperTemplate<>);
             Type israelTrafficConcreteType = concreteTemplateType.MakeGenericType(typeof(TrafficIsraelProperties));
             Type indiaTrafficConcreteType = concreteTemplateType.MakeGenericType(typeof(TrafficIndiaProperties));
-            kindToInheritedMap["Israel"] = new VirtuallyInheritedObjectProperties(israelTrafficConcreteType);
-            kindToInheritedMap["India"] = new VirtuallyInheritedObjectProperties(indiaTrafficConcreteType);
+            kindToInheritedMap[TrafficKind.Israel.ToString()] = new VirtuallyInheritedObjectProperties(israelTrafficConcreteType);
+            kindToInheritedMap[TrafficKind.India.ToString()] = new VirtuallyInheritedObjectProperties(indiaTrafficConcreteType);
 
             return kindToInheritedMap;
         }

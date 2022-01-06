@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using ArmResourceProviderDemo.WebModels;
 using ArmResourceProviderDemo.WebModels.Traffic;
 using ArmResourceProviderDemo.WebModels.Wind;
@@ -8,16 +11,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using ActualParameterName = System.String;
+using ParameterName = System.String;
 
 namespace ArmResourceProviderDemo
 {
     public class Startup
     {
         private readonly SwaggerConfig _swaggerConfig;
+
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
@@ -26,27 +28,27 @@ namespace ArmResourceProviderDemo
 
             var genarateInternalSwagger = Environment.GetCommandLineArgs().Contains("--internal-swagger");
             var genarateExternalSwagger = !genarateInternalSwagger;
-            var OdataReusableParameters = new List<string>() { "$filter", "$orderBy", "$skipToken", "$top" };
             _swaggerConfig = new SwaggerConfig
             {
                 PolymorphicSchemaModels = new List<Type> { typeof(TrafficResource), typeof(WindResource) },
                 ModelEnumsAsString = true,
                 GlobalCommonReusableParameters = new Dictionary<string, Microsoft.OpenApi.Models.OpenApiParameter>()
                 {
-                   { "SomeGlobalParam", new OpenApiParameter {
-                                    Description = "SomGlobalParam Description",
-                                    Name = "testParamName",
-                                    In = ParameterLocation.Path,
-                                    Required = true,
-                                    Schema = new OpenApiSchema()
-                                    {
-                                        Type = "string",
-                                        MinLength = 1,
-                                    },
-                        }
+                    { "SomeGlobalParam", new OpenApiParameter {
+                        Description = "SomGlobalParam Description",
+                        Name = "testParamName",
+                        In = ParameterLocation.Path,
+                        Required = true,
+                        Schema = new OpenApiSchema()
+                        {
+                            Type = "string",
+                            MinLength = 1,
+                        },
+                    }
                     }
                 },
-                ResourceProviderReusableParameters = OdataReusableParameters.Concat(new List<string> { "WorkspaceName" }).ToList(),
+                ResourceProviderReusableParameters = new List<KeyValuePair<ParameterName, ActualParameterName>> {
+                    new KeyValuePair<ParameterName, ActualParameterName>("WorkspaceName", "WorkspaceName") },
                 HideParametersEnabled = genarateExternalSwagger,
                 GenerateExternalSwagger = genarateExternalSwagger,
                 SupportedApiVersions = new[] { "v1" },
@@ -58,7 +60,6 @@ namespace ArmResourceProviderDemo
             };
         }
 
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -67,18 +68,17 @@ namespace ArmResourceProviderDemo
                 c.SerializerSettings.Converters.Add(new ResourceJsonConverter<TrafficResource, TrafficBaseProperties>(
                     new Dictionary<string, Type>
                     {
-                        { "Israel", typeof(TrafficIsraelProperties)},
-                        { "India", typeof(TrafficIndiaProperties)}
+                        { "Israel", typeof(TrafficIsraelProperties) },
+                        { "India", typeof(TrafficIndiaProperties) }
                     }));
                 c.SerializerSettings.Converters.Add(new ResourceJsonConverter<WindResource, WindBaseProperties>(
                     new Dictionary<string, Type>
                     {
-                        { "IsraelWindKind", typeof(WindIsraelProperties)},
-                        { "IndiaWindKind", typeof(WindIndiaProperties)}
+                        { "IsraelWindKind", typeof(WindIsraelProperties) },
+                        { "IndiaWindKind", typeof(WindIndiaProperties) }
                     }));
             });
-            services.AddAutorestCompliantSwagger(_swaggerConfig);
-
+            services.AddArmCompliantSwagger(_swaggerConfig);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -92,7 +92,7 @@ namespace ArmResourceProviderDemo
             app.UseSwagger(options =>
             {
                 options.RouteTemplate = "swagger/{documentName}/swagger.json";
-                // Change generated swagger version to 2.0
+            // Change generated swagger version to 2.0
                 options.SerializeAsV2 = true;
             });
 

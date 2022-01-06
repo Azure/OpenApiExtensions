@@ -5,11 +5,11 @@
         object GetExample();
     }
 
-    public abstract  class BodyExamplesProvider : IExamplesProvider
+    public abstract class BodyExamplesProvider : IExamplesProvider
     {
         public object GetExample()
         {
-            return new { body = this.GetBodyExample() };
+            return new { body = GetBodyExample() };
         }
 
         protected abstract object GetBodyExample();
@@ -32,6 +32,5 @@
         {
             public TInnerBodyValue Value { get; set; }
         }
-
     }
 }

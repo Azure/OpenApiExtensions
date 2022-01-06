@@ -21,7 +21,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
         /// <param name="operation">OpenApiOperation.</param>
         /// <param name="context">DocumentFilterContext.</param>
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
-        {            
+        {
             // Remove all mime types from response except application/json
             foreach (var response in operation.Responses.Values)
             {
@@ -38,7 +38,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
             var producesAttrs = context.ApiDescription.CustomAttributes().OfType<ProducesContentTypeAttribute>();
             if (producesAttrs.Any())
             {
-                // removing default contentType "Application-Json" 
+                // removing default contentType "Application-Json"
                 // if we are adding other contentTypes via attribute in the operation.
                 foreach (var response in operation.Responses.Values)
                 {

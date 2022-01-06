@@ -1,6 +1,6 @@
-using SimpleKindArmResourceProviderDemo.WebModels;
-using SimpleKindArmResourceProviderDemo.WebModels.Traffic;
-using SimpleKindArmResourceProviderDemo.WebModels.Wind;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.OpenApiExtensions.Options;
@@ -8,16 +8,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using SimpleKindArmResourceProviderDemo.WebModels.Traffic;
+using SimpleKindArmResourceProviderDemo.WebModels.Wind;
+using ActualParameterName = System.String;
+using ParameterName = System.String;
 
 namespace SimpleKindArmResourceProviderDemo
 {
     public class Startup
     {
         private readonly SwaggerConfig _swaggerConfig;
+
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
@@ -26,7 +27,7 @@ namespace SimpleKindArmResourceProviderDemo
 
             var genarateInternalSwagger = Environment.GetCommandLineArgs().Contains("--internal-swagger");
             var genarateExternalSwagger = !genarateInternalSwagger;
-            var OdataReusableParameters = new List<string>() { "$filter", "$orderBy", "$skipToken", "$top" };
+
             _swaggerConfig = new SwaggerConfig
             {
                 PolymorphicSchemaModels = new List<Type> { typeof(TrafficResource), typeof(WindResource) },
@@ -44,9 +45,10 @@ namespace SimpleKindArmResourceProviderDemo
                                         MinLength = 1,
                                     },
                         }
-                    }
+                   }
                 },
-                ResourceProviderReusableParameters = OdataReusableParameters.Concat(new List<string> { "WorkspaceName" }).ToList(),
+                ResourceProviderReusableParameters = new List<KeyValuePair<ParameterName, ActualParameterName>> {
+                    new KeyValuePair<ParameterName, ActualParameterName>("WorkspaceName", "WorkspaceName") },
                 HideParametersEnabled = genarateExternalSwagger,
                 GenerateExternalSwagger = genarateExternalSwagger,
                 SupportedApiVersions = new[] { "v1" },
@@ -58,15 +60,13 @@ namespace SimpleKindArmResourceProviderDemo
             };
         }
 
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(c =>
             {
             });
-            services.AddAutorestCompliantSwagger(_swaggerConfig);
-
+            services.AddArmCompliantSwagger(_swaggerConfig);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,7 +77,22 @@ namespace SimpleKindArmResourceProviderDemo
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseAutorestCompliantSwagger(_swaggerConfig);
+            app.UseSwagger(options =>
+            {
+                options.RouteTemplate = "swagger/{documentName}/swagger.json";
+                // Change generated swagger version to 2.0
+                options.SerializeAsV2 = true;
+            });
+
+            app.UseSwaggerUI(option =>
+            {
+                IEnumerable<string> actualDocumentsToGenerate = _swaggerConfig.SupportedApiVersions;
+                if (actualDocumentsToGenerate == null || !actualDocumentsToGenerate.Any())
+                {
+                    actualDocumentsToGenerate = new[] { _swaggerConfig.DefaultApiVersion };
+                }
+                actualDocumentsToGenerate.ToList().ForEach(v => option.SwaggerEndpoint($"/swagger/{v}/swagger.json", v));
+            });
 
             app.UseRouting();
 

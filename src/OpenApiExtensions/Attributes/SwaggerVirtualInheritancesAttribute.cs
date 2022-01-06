@@ -1,17 +1,13 @@
-﻿using Microsoft.Azure.OpenApiExtensions.Helpers;
+using Microsoft.Azure.OpenApiExtensions.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Microsoft.Azure.OpenApiExtensions.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class SwaggerVirtualInheritancesAttribute : Attribute
     {
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="VirtualInheritancesProviderType">Type of Provider for inheritance. Must Implement IVirtualInheritancesProvider</param>
         /// <param name="InheritedFromName">Name of the parent object</param>
         /// <param name="Discriminator">Field of the parent object that discrimante between different values. Default is "kind"</param>
@@ -26,14 +22,11 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
                 throw new ArgumentException($"argument must be assignable from {nameof(IVirtualInheritancesProvider)}, and must own a valid {nameof(IVirtualInheritancesProvider.GetVirtualInheritances)} method", nameof(VirtualInheritancesProviderType));
             }
 
-            this.VirtualInheritancesProvider = (IVirtualInheritancesProvider)Activator.CreateInstance(VirtualInheritancesProviderType);
+            VirtualInheritancesProvider = (IVirtualInheritancesProvider)Activator.CreateInstance(VirtualInheritancesProviderType);
             this.InheritedFromName = InheritedFromName;
             this.Discriminator = Discriminator;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="simpleKindVirtualInheritanceProvider">Type of Provider for inheritance. Must Implement SimpleKindVirtualInheritanceProvider</param>
         /// <param name="virtuallyInheritedItemDetails">Type for an object that provide the child attributes per each discrimantor</param>
         /// <param name="enumType">Enum represent the discrimantor. simpleKindVirtualInheritanceProvider and virtuallyInheritedItemDetails get the enumType as generics</param>
@@ -45,20 +38,19 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
                 throw new ArgumentNullException(nameof(enumType));
             }
 
-            ValidationUtils.ValidateIsAssignableToGenericType(typeof(SimpleKindVirtualInheritanceProvider<>),enumType, simpleKindVirtualInheritanceProvider);
+            ValidationUtils.ValidateIsAssignableToGenericType(typeof(SimpleKindVirtualInheritanceProvider<>), enumType, simpleKindVirtualInheritanceProvider);
 
-            ValidationUtils.ValidateIsAssignableToGenericType(typeof(IVirtuallyInheritedItemDetails<>), enumType, virtuallyInheritedItemDetails);            
-          
+            ValidationUtils.ValidateIsAssignableToGenericType(typeof(IVirtuallyInheritedItemDetails<>), enumType, virtuallyInheritedItemDetails);
+
             var virtuallyInheritedItemDetailsInstance = Activator.CreateInstance(virtuallyInheritedItemDetails);
             //var bla = new SimpleKindVirtualInheritanceProvider<CountryKind>(typeof(CountryKind), new WindDetailedItemProvider());
-            this.VirtualInheritancesProvider = (IVirtualInheritancesProvider)Activator.CreateInstance(simpleKindVirtualInheritanceProvider,enumType, virtuallyInheritedItemDetailsInstance);
+            VirtualInheritancesProvider = (IVirtualInheritancesProvider)Activator.CreateInstance(simpleKindVirtualInheritanceProvider, enumType, virtuallyInheritedItemDetailsInstance);
             this.Discriminator = Discriminator;
         }
 
         public IVirtualInheritancesProvider VirtualInheritancesProvider { get; }
         public string InheritedFromName { get; }
         public string Discriminator { get; }
-
     }
 
     public interface IVirtualInheritancesProvider
@@ -101,7 +93,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
     [SwaggerSchemaNameStrategyAttribute(NamingStrategy.Custom, typeof(GenericArgumentPropertiesSuffixRemover))]
     public class VirtualInheritecePropertiesWrapperTemplate<TPropsType>
     {
-        public TPropsType properties { get; set; }
+        public TPropsType Properties { get; set; }
     }
 
     public class GenericArgumentPropertiesSuffixRemover : ICustomSchemaNameProvider

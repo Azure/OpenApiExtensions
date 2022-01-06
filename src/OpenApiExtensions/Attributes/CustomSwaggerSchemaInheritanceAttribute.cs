@@ -14,7 +14,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
         {
             ExternalSchemaName = externalSchemaName;
             DefinitionLevel = definitionLevel;
-            NotInheritedPropertiesName = notInheritedPropertiesName;            
+            NotInheritedPropertiesName = notInheritedPropertiesName;
         }
 
         public string ExternalSchemaName { get; private set; }

@@ -16,12 +16,12 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
         /// <param name="statusCode">HTTP status codes of response.</param>
         public ProducesContentTypeAttribute(string contentType, int statusCode)
         {
-            this.ContentType = contentType;
+            ContentType = contentType;
 
             // Validate input content type.
             MediaTypeHeaderValue.Parse(contentType);
 
-            this.StatusCode = statusCode;
+            StatusCode = statusCode;
         }
 
         /// <summary>

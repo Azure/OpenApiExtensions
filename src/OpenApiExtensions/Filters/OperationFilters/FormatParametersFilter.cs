@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Azure.OpenApiExtensions.Attributes;
 using Microsoft.OpenApi.Any;
@@ -18,7 +18,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
         // and need not be exposed in OpenApi spec. Some other parameters which can be always ignored can be added here.
         private static readonly HashSet<string> IgnoredParameters = new HashSet<string> { "x-ms-client-tenant-id" };
 
-        private readonly IDictionary<string, OpenApiParameter> parameters;
+        private readonly IDictionary<string, OpenApiParameter> _parameters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatParametersFilter"/> class.
@@ -33,7 +33,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
         /// <param name="parameters">List of reusable parameters.</param>
         public FormatParametersFilter(IDictionary<string, OpenApiParameter> parameters)
         {
-            this.parameters = parameters;
+            this._parameters = parameters;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
         /// <param name="context">DocumentFilterContext.</param>
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            var referencesByName = this.GetParameterReferenceByName();
+            var referencesByName = GetParameterReferenceByName();
 
             var ignoredParamAttrs = context?.ApiDescription.CustomAttributes().OfType<IgnoredParametersAttribute>().FirstOrDefault();
             IList<OpenApiParameter> newParameters = new List<OpenApiParameter>();
@@ -74,7 +74,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
                     newParameters.Add(referencesByName[(bodyParamName as OpenApiString).Value]);
                     operation.RequestBody = null;
                 }
-
             }
             operation.Parameters = newParameters;
         }
@@ -88,7 +87,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
         {
             var parameterReferences = new Dictionary<string, OpenApiParameter>();
 
-            foreach (KeyValuePair<string, OpenApiParameter> keyValuePair in this.parameters)
+            foreach (KeyValuePair<string, OpenApiParameter> keyValuePair in _parameters)
             {
                 parameterReferences.Add(
                     keyValuePair.Value.Name,

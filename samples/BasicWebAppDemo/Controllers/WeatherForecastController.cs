@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BasicWebAppDemo.WebModels.Examples;
 using BasicWebAppDemo.V1;
+using BasicWebAppDemo.WebModels.Examples;
 using Microsoft.AspNet.OData.Query;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.OpenApiExtensions.Attributes;
+using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BasicWebAppDemo.Controllers
 {
@@ -15,29 +15,28 @@ namespace BasicWebAppDemo.Controllers
     [ApiController]
     [Route("WeatherForecast")]
     [ApiVersion("2021-09-01-preview")]
-    [ApiVersionRange(fromVersion: "2021-09-01-preview", toVersion: "2022-01-01-preview")]
+    [SwaggerApiVersionRange(fromVersion: "2021-09-01-preview", toVersion: "2022-01-01-preview")]
     public class WeatherForecastController : ControllerBase
     {
+        public static IEnumerable<WeatherForecast> Db;
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        public static IEnumerable<WeatherForecast> _db;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
             var rng = new Random();
-            _db = Enumerable.Range(1, 5).Select(index => new WeatherForecastNetanya
+            Db = Enumerable.Range(1, 5).Select(index => new WeatherForecastNetanya
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             });
-            _db.ToList().AddRange(
-
+            Db.ToList().AddRange(
                 Enumerable.Range(1, 5).Select(index => new WeatherForecastEilat
                 {
                     Date = DateTime.Now.AddDays(index),
@@ -54,13 +53,13 @@ namespace BasicWebAppDemo.Controllers
             Tags = new[] { "forecast" })]
         [SwaggerResponse(200, "The WeatherForecast was fetched", typeof(IEnumerable<WeatherForecast>))]
         [SwaggerResponse(400, "invalid request")]
-        //[SwaggerResponseExample(200, typeof(StringResponseExample))]
         [ResponseExample(200, typeof(ArrayWeatherForecastExample))]
         [RequestExample(typeof(GetWeatherForecastRequestExample))]
+        [Example("myfolder", "sometitle")]
         [HttpGet]
         public IEnumerable<WeatherForecast> GetWeather([FromQuery, SwaggerParameter("WeatherForecast Id", Required = true)] string id)
         {
-            return _db;
+            return Db;
         }
 
         [SwaggerOperation(
@@ -70,7 +69,7 @@ namespace BasicWebAppDemo.Controllers
             Tags = new[] { "forecast" })]
         [SwaggerResponse(200, "The WeatherForecast was fetched", typeof(WeatherForecast))]
         [SwaggerResponse(400, "invalid request")]
-        //[SwaggerResponseExample(200, typeof(StringResponseExample))]            
+        //[SwaggerResponseExample(200, typeof(StringResponseExample))]
         [ResponseExample(200, typeof(WeatherForecastExample))]
         [HttpPost]
         public string PostWeather(WeatherForecast weather)
@@ -93,13 +92,13 @@ namespace BasicWebAppDemo.Controllers
             Tags = new[] { "forecast" })]
         [SwaggerResponse(200, "The WeatherForecast was fetched", typeof(WeatherForecast))]
         [SwaggerResponse(400, "invalid request")]
-        //[SwaggerResponseExample(200, typeof(StringResponseExample))]        
+        //[SwaggerResponseExample(200, typeof(StringResponseExample))]
         [ResponseExample(200, typeof(WeatherForecastExample))]
         [RequestExample(typeof(GetWeatherForecastRequestExample))]
         [HttpGet("{geo}")]
         public WeatherForecast GetSpecificWeather(string someParam, string geo, [FromQuery, SwaggerParameter("WeatherForecast Id", Required = true)] string id)
         {
-            return _db.First();
+            return Db.First();
         }
 
         [HideInDocs]
@@ -114,7 +113,7 @@ namespace BasicWebAppDemo.Controllers
         [HttpGet("InternalApi")]
         public IEnumerable<WeatherForecast> InternalApi([FromQuery, SwaggerParameter("WeatherForecast Id", Required = true)] string id)
         {
-            return _db;
+            return Db;
         }
 
         [HttpGet("test1/{val}")]
@@ -122,6 +121,5 @@ namespace BasicWebAppDemo.Controllers
         {
             return new ODataQueryResponse { Val = val, TestStr = testStr, Filter = options.Filter.RawValue, OrderBy = options.OrderBy.RawValue, SkipToken = options.SkipToken.RawValue };
         }
-
     }
 }

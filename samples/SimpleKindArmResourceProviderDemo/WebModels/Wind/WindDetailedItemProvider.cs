@@ -1,9 +1,6 @@
-﻿using Microsoft.Azure.OpenApiExtensions.Helpers;
-using SimpleKindArmResourceProviderDemo.WebModels.Traffic;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Azure.OpenApiExtensions.Helpers;
+using SimpleKindArmResourceProviderDemo.WebModels.Traffic;
 
 namespace SimpleKindArmResourceProviderDemo.WebModels.Wind
 {
@@ -18,18 +15,18 @@ namespace SimpleKindArmResourceProviderDemo.WebModels.Wind
         {
             switch (kindValue)
             {
-                case CountryKind.USA: 
-                {
+                case CountryKind.USA:
+                    {
                         return "Kind for United States of America";
-                }
+                    }
                 case CountryKind.ENGLAND:
-                {
-                    return "Kind for Great Britan";
-                }
+                    {
+                        return "Kind for Great Britan";
+                    }
                 default:
-                {
-                    return $"Other kind:{kindValue}";
-                }
+                    {
+                        return $"Other kind:{kindValue}";
+                    }
             }
         }
 
@@ -43,17 +40,17 @@ namespace SimpleKindArmResourceProviderDemo.WebModels.Wind
             switch (kindValue)
             {
                 case CountryKind.USA:
-                {
+                    {
                         return typeof(TrafficUsaProperties);
                     }
                 case CountryKind.ENGLAND:
-                {
-                        return typeof(TrafficEnglandProperties) ;
-                }
+                    {
+                        return typeof(TrafficEnglandProperties);
+                    }
                 default:
-                {
-                    return typeof(TrafficBaseProperties);
-                }
+                    {
+                        return typeof(TrafficBaseProperties);
+                    }
             }
         }
     }

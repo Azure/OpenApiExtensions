@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Microsoft.Azure.OpenApiExtensions.Attributes
 {
@@ -11,17 +11,17 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
         /// <summary>
         /// Indicates that the value of the property can be read.
         /// </summary>
-        read = 0x0,
+        Read = 0x0,
 
         /// <summary>
         /// Indicates that the value of the property can be set while creating/initializing/constructing the object.
         /// </summary>
-        create = 0x1,
+        Create = 0x1,
 
         /// <summary>
         /// Indicates that value of the property can be updated anytime(even after the object is created).
         /// </summary>
-        update = 0x2,
+        Update = 0x2,
     }
 
     /// <summary>
@@ -40,6 +40,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
         /// <summary>
         /// Gets or sets mutablility of a field Eg: [Mutable(Mutability = MutabilityTypes.create | MutabilityTypes.read)].
         /// </summary>
-        public MutabilityTypes Mutability { get; set; } = MutabilityTypes.create | MutabilityTypes.read | MutabilityTypes.update;
+        public MutabilityTypes Mutability { get; set; } = MutabilityTypes.Create | MutabilityTypes.Read | MutabilityTypes.Update;
     }
 }

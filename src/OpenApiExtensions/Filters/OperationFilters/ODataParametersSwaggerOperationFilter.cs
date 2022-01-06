@@ -59,7 +59,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
                 //});
                 // $count - not supported yet leave as comment
                 //operation.Parameters.Add(new OpenApiParameter
-                //{                    
+                //{
                 //    Name = "$count",
                 //    Description = "Return the total count.",
                 //    Required = false,
