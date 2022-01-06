@@ -73,19 +73,6 @@ namespace OpenApiExtensions.Test.Integration
             var odataEndpointParams = obj.Paths["/WeatherForecast/test1/{val}"]["get"].Parameters;
             odataEndpointParams.Should().Contain(o => o.ContainsKey("$ref") && o["$ref"].ToString().Contains("ODataFilter"));
             odataEndpointParams.Should().Contain(o => o.ContainsKey("$ref") && o["$ref"].ToString().Contains("ODataTop"));
-        }
-
-        //[Fact]
-        //public async Task Put_WhenRequestPropertiesAreAccordingToFromBodyDefinition_Success()
-        //{
-        //    // Act
-        //    string actionId = "testActionId";
-        //    string bodyWithNullProperties = "{ \"properties\": { \"logicAppResourceId\": \"test\" } }";
-        //    var requestContent = new StringContent(bodyWithNullProperties, Encoding.UTF8, "application/json");
-        //    var response = await _client.PutAsync($"{SentinelArmConstants.SecurityInsightsArmRouteBaseUrl}{actionId}?api-version=2019-01-01", requestContent);
-
-        //    // Assert
-        //    Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        //}
+        }     
     }
 }
