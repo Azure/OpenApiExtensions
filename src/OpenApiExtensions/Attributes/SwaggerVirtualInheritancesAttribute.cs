@@ -26,7 +26,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
                 throw new ArgumentException($"argument must be assignable from {nameof(IVirtualInheritancesProvider)}, and must own a valid {nameof(IVirtualInheritancesProvider.GetVirtualInheritances)} method", nameof(VirtualInheritancesProviderType));
             }
 
-            this.VirtualInheritancesProvider = (IVirtualInheritancesProvider)Activator.CreateInstance(VirtualInheritancesProviderType);
+            VirtualInheritancesProvider = (IVirtualInheritancesProvider)Activator.CreateInstance(VirtualInheritancesProviderType);
             this.InheritedFromName = InheritedFromName;
             this.Discriminator = Discriminator;
         }
@@ -51,7 +51,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
           
             var virtuallyInheritedItemDetailsInstance = Activator.CreateInstance(virtuallyInheritedItemDetails);
             //var bla = new SimpleKindVirtualInheritanceProvider<CountryKind>(typeof(CountryKind), new WindDetailedItemProvider());
-            this.VirtualInheritancesProvider = (IVirtualInheritancesProvider)Activator.CreateInstance(simpleKindVirtualInheritanceProvider,enumType, virtuallyInheritedItemDetailsInstance);
+            VirtualInheritancesProvider = (IVirtualInheritancesProvider)Activator.CreateInstance(simpleKindVirtualInheritanceProvider,enumType, virtuallyInheritedItemDetailsInstance);
             this.Discriminator = Discriminator;
         }
 

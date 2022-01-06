@@ -15,7 +15,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
         /// <summary>
         /// Initializes a new instance of the <see cref="SwaggerDefaultValuesFilter"/> class.
         /// </summary>
-        /// <param name="config">API config.</param>
         public SwaggerDefaultValuesFilter()
         {
         }

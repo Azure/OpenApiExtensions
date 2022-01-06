@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -15,17 +15,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
     /// </summary>
     public class RemoveDuplicateApiVersionParameterFilter : IOperationFilter
     {
-        const string HttpHeaderNamesApiVersion = "api-version";
-        //private readonly IApiConfig config;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RemoveDuplicateApiVersionParameterFilter"/> class.
-        /// </summary>
-        /// <param name="config">API config.</param>
-        public RemoveDuplicateApiVersionParameterFilter(/*IApiConfig config*/)
-        {
-          //  this.config = config;
-        }
+        const string HttpHeaderNamesApiVersion = "api-version";       
 
         /// <inheritdoc/>
         public void Apply(OpenApiOperation operation, OperationFilterContext context)

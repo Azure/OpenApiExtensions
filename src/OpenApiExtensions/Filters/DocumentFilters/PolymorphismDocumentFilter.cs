@@ -28,7 +28,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters
         /// <inheritdoc/>
         public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
-            foreach (Type abstractType in this.baseTypes)
+            foreach (Type abstractType in baseTypes)
             {
                 RegisterSubClasses(swaggerDoc, context.SchemaRepository, context.SchemaGenerator, abstractType);
             }

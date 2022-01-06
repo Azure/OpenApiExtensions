@@ -1,4 +1,4 @@
-﻿using Microsoft.Azure.OpenApiExtensions.Options;
+using Microsoft.Azure.OpenApiExtensions.Options;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
@@ -21,7 +21,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
         /// <summary>
         /// Initializes a new instance of the <see cref="UpdateCommonRefsDocumentFilter"/> class.
         /// </summary>
-        /// <param name="apiConfig">API config.</param>
         /// <param name="swaggerConfig">Swagger config.</param>
         public UpdateCommonRefsDocumentFilter(SwaggerConfig swaggerConfig)
         {

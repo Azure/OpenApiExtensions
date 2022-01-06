@@ -9,7 +9,7 @@
     {
         public object GetExample()
         {
-            return new { body = this.GetBodyExample() };
+            return new { body = GetBodyExample() };
         }
 
         protected abstract object GetBodyExample();

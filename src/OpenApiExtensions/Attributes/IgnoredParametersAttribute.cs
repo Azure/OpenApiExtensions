@@ -20,7 +20,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
                 throw new ArgumentNullException(nameof(parameterNames));
             }
 
-            this.ParameterNames = new HashSet<string>(parameterNames);
+            ParameterNames = new HashSet<string>(parameterNames);
         }
 
         /// <summary>

@@ -25,7 +25,7 @@ namespace SimpleKindArmResourceProviderDemo.WebModels.Traffic
         protected override Type GetPropertiesClass(CountryKind kindValue)
         {
             string propertiesClassName = $"SimpleKindArmResourceProviderDemo.WebModels.Traffic.Traffic{ToCamelCase(kindValue)}Properties";
-            return this.GetType().Assembly.GetType(propertiesClassName);
+            return GetType().Assembly.GetType(propertiesClassName);
         }
 
         private string ToCamelCase(CountryKind kindValue)

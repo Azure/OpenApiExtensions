@@ -9,6 +9,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
         /// <summary>
         /// Init new class that implements ExampleTypeProvider, to provide example for a controller's response
         /// </summary>
+        /// <param name="httpCode"></param>
         /// <param name="exampleTypeProvider">The type of ExampleTypeProvider to initiate</param>
         /// <param name="exampleName">Optional. For support multiple examples by example name in single ExampleTypeProvider</param>
 

@@ -21,7 +21,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
                 throw new ArgumentNullException(nameof(info), "Can not be null.");
             }
 
-            this._info = info;
+            _info = info;
         }
     
         /// <summary>
@@ -35,7 +35,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         /// <returns>Api version.</returns>
         public string GetVersion()
         {
-            return this._info.Version;
+            return _info.Version;
         }
 
         /// <summary>
@@ -46,14 +46,14 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         {
             return new OpenApiInfo
             {
-                Title = this._info.Title,
-                Version = this._info.Version,
-                Description = this._info.Description,
+                Title = _info.Title,
+                Version = _info.Version,
+                Description = _info.Description,
                 Extensions =
                 {
                     ["x-ms-code-generation-settings"] = new OpenApiObject
                     {
-                        ["name"] = new OpenApiString(this._info.ClientName),
+                        ["name"] = new OpenApiString(_info.ClientName),
                     },
                 },
             };

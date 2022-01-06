@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.OpenApi.Models;
@@ -6,6 +6,8 @@ using FileNameWithoutExtension = System.String;
 using TypeName = System.String;
 using ParemeterName = System.String;
 using ActualParemeterName = System.String;
+
+#pragma warning disable CS1711 // XML comment has a typeparam tag, but there is no type parameter by that name
 
 namespace Microsoft.Azure.OpenApiExtensions.Options
 {
@@ -29,15 +31,15 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         /// <summary>
         /// Creates shared Definitions for commonly used endpoint parameters (operations parameters) within the swagger document
         /// </summary>
-        /// <typeparam name="string"></typeparam>
+        /// <typeparam name="TypeName"></typeparam>
         /// <typeparam name="OpenApiParameter"></typeparam>
         /// <returns></returns>
         public Dictionary<TypeName, OpenApiParameter> DocumentLevelReusableParameters { get; set; } = new Dictionary<TypeName, OpenApiParameter>();
 
         /// <summary>
-        /// Gets Or Sets the global parameters, from the Azure spec common library <see cref="https://github.com/Azure/azure-rest-api-specs/tree/main/specification/common-types/resource-management"/>
+        /// Gets Or Sets the global parameters, from the Azure spec common library "https://github.com/Azure/azure-rest-api-specs/tree/main/specification/common-types/resource-management" />
         /// </summary>
-        /// <typeparam name="string">the name of the parameter</typeparam>
+        /// <typeparam name="TypeName">the name of the parameter</typeparam>
         /// <typeparam name="OpenApiParameter">the open Api parameter</typeparam>
         /// <returns></returns>
         public Dictionary<TypeName, OpenApiParameter> GlobalCommonReusableParameters { get; set; } = new Dictionary<TypeName, OpenApiParameter>();
@@ -45,21 +47,22 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         /// <summary>
         /// Version Level Common Definitions 
         /// </summary>
-        /// <typeparam name="string">the Definition (schema) name</typeparam>
-        /// <typeparam name="string">the file name where the Definition exists (the file should under the version folder on Common folder)</typeparam>
+        /// <typeparam name="TypeName">the Definition (schema) name</typeparam>
+        /// <typeparam name="FileNameWithoutExtension">the file name where the Definition exists (the file should under the version folder on Common folder)</typeparam>
         /// <returns></returns>
         public Dictionary<TypeName, FileNameWithoutExtension> VersionCommonReusableDefinitions { get; set; } = new Dictionary<TypeName, FileNameWithoutExtension>();
 
-        /// <summary>
-        /// Resource Provider Common Definitions (refer Common folder under your resource provider <see cref="https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/common"/> )
-        /// </summary>
-        /// <typeparam name="string">the Definition (schema) name </typeparam>
-        /// <returns></returns>
-        public List<KeyValuePair<ParemeterName, ActualParemeterName>> ResourceProviderReusableParameters { get; set; } = new List<KeyValuePair<FileNameWithoutExtension, FileNameWithoutExtension>>();
 
         /// <summary>
-        /// Read all XML Documentation files available under the running assembly folder 
-        //  see https://riptutorial.com/csharp/example/5498/generating-xml-from-documentation-comments#:~:text=To%20generate%20an%20XML%20documentation%20file%20from%20documentation,-%3E%20Output%2C%20check%20the%20XML%20documentation%20file%20checkbox%3A"        
+        /// Resource Provider Common Definitions (refer Common folder under your resource provider https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/common/> )
+        /// </summary>
+        /// <typeparam name="ParemeterName">the Definition (schema) name </typeparam>
+        /// <typeparam name="FileNameWithoutExtension">the Definition (schema) name </typeparam>        
+        /// <returns></returns>
+        public List<KeyValuePair<ParemeterName, FileNameWithoutExtension>> ResourceProviderReusableParameters { get; set; } = new List<KeyValuePair<ParemeterName, FileNameWithoutExtension>>();
+
+        /// <summary>
+        /// Read all XML Documentation files available under the running assembly folder see https://riptutorial.com/csharp/example/5498/generating-xml-from-documentation-comments#:~:text=To%20generate%20an%20XML%20documentation%20file%20from%20documentation,-%3E%20Output%2C%20check%20the%20XML%20documentation%20file%20checkbox%3A"
         /// </summary>
         public bool UseXmlCommentFiles { get; set; } = true;
 
