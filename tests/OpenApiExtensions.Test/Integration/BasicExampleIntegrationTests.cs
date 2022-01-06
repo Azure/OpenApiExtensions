@@ -27,20 +27,20 @@ namespace OpenApiExtensions.Test.Integration
         [InlineData("/swagger/2021-10-01/swagger.json")]
         public async void Get_SwaggerPerVersion_Ok(string url)
         {
-            // Act            
+            // Act
             var response = await _client.GetAsync(url);
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
 
-        [Theory]        
+        [Theory]
         [InlineData("/swagger/2021-09-01-preview/swagger.json")]
         [InlineData("/swagger/2022-01-01-preview/swagger.json")]
         [InlineData("/swagger/2021-10-01/swagger.json")]
         public async void Get_SwaggerPerVersion_PathsNotEmpty(string url)
         {
-            // Act            
+            // Act
             var response = await _client.GetAsync(url);
             // Assert
             var content = await response.Content.ReadAsStringAsync();
@@ -50,12 +50,12 @@ namespace OpenApiExtensions.Test.Integration
             response.EnsureSuccessStatusCode();
         }
 
-        [Theory]        
+        [Theory]
         [InlineData("/swagger/2021-09-01-preview/swagger.json")]
-        [InlineData("/swagger/2021-10-01/swagger.json")]        
+        [InlineData("/swagger/2021-10-01/swagger.json")]
         public async void Get_SwaggerPerVersion_PolymorphsimClassesReturned(string url)
         {
-            // Act            
+            // Act
             var response = await _client.GetAsync(url);
             // Assert
             var content = await response.Content.ReadAsStringAsync();
@@ -63,10 +63,10 @@ namespace OpenApiExtensions.Test.Integration
             obj.Definitions.Should().ContainKey("WeatherForecastNetanya");
         }
 
-        [Fact]      
+        [Fact]
         public async void Get_ODataApi_OdataParameterAreSpecified()
         {
-            // Act            
+            // Act
             var response = await _client.GetAsync("/swagger/2021-09-01-preview/swagger.json");
             // Assert
             var content = await response.Content.ReadAsStringAsync();
@@ -80,7 +80,7 @@ namespace OpenApiExtensions.Test.Integration
         //[Fact]
         //public async Task Put_WhenRequestPropertiesAreAccordingToFromBodyDefinition_Success()
         //{
-        //    // Act            
+        //    // Act
         //    string actionId = "testActionId";
         //    string bodyWithNullProperties = "{ \"properties\": { \"logicAppResourceId\": \"test\" } }";
         //    var requestContent = new StringContent(bodyWithNullProperties, Encoding.UTF8, "application/json");

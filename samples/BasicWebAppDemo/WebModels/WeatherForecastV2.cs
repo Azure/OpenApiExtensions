@@ -20,6 +20,7 @@ namespace BasicWebAppDemo.V2
         [Required]
         [JsonProperty(PropertyName = "kind")]
         abstract public GeoJsonObjectKind Kind { get; set; }
+
         public DateTime Date { get; set; }
 
         [SwaggerSchema("The WeatherForecast Temperature Celsius", ReadOnly = true)]
@@ -45,7 +46,7 @@ namespace BasicWebAppDemo.V2
 
     /// <summary>
     /// Som description!
-    /// </summary>    
+    /// </summary>
     [SubTypeOf(typeof(WeatherForecast))]
     public class WeatherForecastNetanya : WeatherForecast
     {
@@ -53,9 +54,11 @@ namespace BasicWebAppDemo.V2
         {
             Kind = GeoJsonObjectKind.Netanya;
         }
+
         [Mutability(Mutability = MutabilityTypes.read)]
         [ReadOnly(true)]
         public int SomeV2NetanyaProp { get; set; }
+
         public override GeoJsonObjectKind Kind { get; set; }
     }
 
@@ -66,8 +69,10 @@ namespace BasicWebAppDemo.V2
         {
             Kind = GeoJsonObjectKind.Eilat;
         }
+
         [ReadOnly(true)]
         public int SomeV2EilatProp { get; set; }
+
         public override GeoJsonObjectKind Kind { get; set; }
     }
 }

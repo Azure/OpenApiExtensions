@@ -18,7 +18,7 @@ namespace SimpleKindArmResourceProviderDemo.WebModels.Wind
         {
             switch (kindValue)
             {
-                case CountryKind.USA: 
+                case CountryKind.USA:
                 {
                         return "Kind for United States of America";
                 }
@@ -48,7 +48,7 @@ namespace SimpleKindArmResourceProviderDemo.WebModels.Wind
                     }
                 case CountryKind.ENGLAND:
                 {
-                        return typeof(TrafficEnglandProperties) ;
+                        return typeof(TrafficEnglandProperties);
                 }
                 default:
                 {

@@ -6,10 +6,13 @@ namespace OpenApiExtensions.Test.Integration
     internal class SwaggerDocument
     {
         public Dictionary<string, SwaggerPath> Paths  { get; set; }
+
         public Dictionary<string, object> Definitions { get; set; }
+
         public SwaggerDocumentInfo Info { get; set; }
-        
+
     }
+
     class SwaggerDocumentInfo
     {
         public string Version { get; set; }
@@ -20,6 +23,7 @@ namespace OpenApiExtensions.Test.Integration
 
 
     }
+
     class SwaggerOperation
     {
         public JObject[] Parameters { get; set; }

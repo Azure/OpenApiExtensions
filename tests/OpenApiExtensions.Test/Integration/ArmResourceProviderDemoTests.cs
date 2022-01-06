@@ -11,7 +11,7 @@ namespace OpenApiExtensions.Test.Integration
     [Collection("IntegrationTests")]
     public class ArmResourceProviderDemoTests : IClassFixture<ApiFixture>
     {
-        private readonly HttpClient _client;        
+        private readonly HttpClient _client;
 
         public ArmResourceProviderDemoTests(ApiFixture factory)
         {
@@ -21,7 +21,7 @@ namespace OpenApiExtensions.Test.Integration
         [Fact]
         public async void Get_SwaggerArmDocument_Ok()
         {
-            // Act            
+            // Act
             var response = await _client.GetAsync("/swagger/v1/swagger.json");
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
@@ -30,7 +30,7 @@ namespace OpenApiExtensions.Test.Integration
         [Fact]
         public async void Get_InheritedModel_Exists()
         {
-            // Act            
+            // Act
             var response = await _client.GetAsync("/swagger/v1/swagger.json");
             // Assert
             var content = await response.Content.ReadAsStringAsync();
@@ -41,7 +41,7 @@ namespace OpenApiExtensions.Test.Integration
         [Fact]
         public async void Get_SpeedModelsRenaming_NewNamesReturned()
         {
-            // Act            
+            // Act
             var response = await _client.GetAsync("/swagger/v1/swagger.json");
             // Assert
             var content = await response.Content.ReadAsStringAsync();

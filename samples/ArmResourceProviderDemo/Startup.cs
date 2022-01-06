@@ -20,6 +20,7 @@ namespace ArmResourceProviderDemo
     public class Startup
     {
         private readonly SwaggerConfig _swaggerConfig;
+
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
@@ -48,7 +49,7 @@ namespace ArmResourceProviderDemo
                     }
                 },
                 ResourceProviderReusableParameters = new List<KeyValuePair<ParameterName, ActualParameterName>> {
-                    new KeyValuePair<ParameterName, ActualParameterName>("WorkspaceName", "WorkspaceName") },                
+                    new KeyValuePair<ParameterName, ActualParameterName>("WorkspaceName", "WorkspaceName") },
                 HideParametersEnabled = genarateExternalSwagger,
                 GenerateExternalSwagger = genarateExternalSwagger,
                 SupportedApiVersions = new[] { "v1" },
@@ -69,14 +70,14 @@ namespace ArmResourceProviderDemo
             c.SerializerSettings.Converters.Add(new ResourceJsonConverter<TrafficResource, TrafficBaseProperties>(
                 new Dictionary<string, Type>
                 {
-                        { "Israel", typeof(TrafficIsraelProperties)},
-                        { "India", typeof(TrafficIndiaProperties)}
+                        { "Israel", typeof(TrafficIsraelProperties) },
+                        { "India", typeof(TrafficIndiaProperties) }
                 }));
             c.SerializerSettings.Converters.Add(new ResourceJsonConverter<WindResource, WindBaseProperties>(
                 new Dictionary<string, Type>
                 {
-                        { "IsraelWindKind", typeof(WindIsraelProperties)},
-                        { "IndiaWindKind", typeof(WindIndiaProperties)}
+                        { "IsraelWindKind", typeof(WindIsraelProperties) },
+                        { "IndiaWindKind", typeof(WindIndiaProperties) }
                 }));
         });
         services.AddArmCompliantSwagger(_swaggerConfig);

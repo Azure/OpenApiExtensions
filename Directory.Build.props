@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup Label="Stylecop">
-    <AdditionalFiles Include="$(SolutionDir)/src/stylecop.json" />
+    <AdditionalFiles Include="$(SolutionDir)/stylecop.json" />
     <!-- Extra 3rd party analyzer https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/DOCUMENTATION.md can be controled on -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>

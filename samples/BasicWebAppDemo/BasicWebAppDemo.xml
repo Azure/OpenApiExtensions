@@ -33,7 +33,7 @@
         <member name="T:BasicWebAppDemo.V1.WeatherForecastNetanya">
             <summary>
             Som description!
-            </summary>    
+            </summary>
         </member>
         <member name="P:BasicWebAppDemo.V2.WeatherForecast.Properties">
             <summary>
@@ -48,7 +48,7 @@
         <member name="T:BasicWebAppDemo.V2.WeatherForecastNetanya">
             <summary>
             Som description!
-            </summary>    
+            </summary>
         </member>
     </members>
 </doc>

@@ -13,7 +13,7 @@ namespace BasicWebAppDemo.V1
     /// Some Descriptive Summary Description (Reflected on your XML Comment -> and Swashbuckle read the XmlDocumentation file and enrich the schamas , see https://github.com/domaindrivendev/Swashbuckle.AspNetCore#include-descriptions-from-xml-comments)
     /// </summary>
     [AzureResource]
-    [SwaggerSchema(Required = new[] { "TemperatureC" })]   
+    [SwaggerSchema(Required = new[] { "TemperatureC" })]
     [JsonConverter(typeof(JsonSubtypes), "kind")]
     [JsonSubtypes.KnownSubType(typeof(WeatherForecastNetanya), GeoJsonObjectKind.Netanya)]
     [JsonSubtypes.KnownSubType(typeof(WeatherForecastEilat), GeoJsonObjectKind.Eilat)]
@@ -28,7 +28,7 @@ namespace BasicWebAppDemo.V1
         /// <summary>
         /// Get or sets DateTime (this is internal comment and not be shown on swagger, as we use here SwaggerSchema that overrides it )
         /// </summary>
-        [SwaggerSchema(Description = "External swagger description" )]
+        [SwaggerSchema(Description = "External swagger description")]
         public DateTime Date { get; set; }
 
         [SwaggerSchema("The WeatherForecast Temperature Celsius", ReadOnly = true)]
@@ -49,7 +49,7 @@ namespace BasicWebAppDemo.V1
 
     /// <summary>
     /// Som description!
-    /// </summary>    
+    /// </summary>
     [SubTypeOf(typeof(WeatherForecast))]
     public class WeatherForecastNetanya : WeatherForecast
     {
@@ -57,9 +57,11 @@ namespace BasicWebAppDemo.V1
         {
             Kind = GeoJsonObjectKind.Netanya;
         }
+
         [Mutability(Mutability = MutabilityTypes.read)]
         [ReadOnly(true)]
         public int SomeV1NetanyaProp { get; set; }
+
         public override GeoJsonObjectKind Kind { get; set; }
     }
 
@@ -70,8 +72,10 @@ namespace BasicWebAppDemo.V1
         {
             Kind = GeoJsonObjectKind.Eilat;
         }
+
         [ReadOnly(true)]
         public int SomeV1EilatProp { get; set; }
+
         public override GeoJsonObjectKind Kind { get; set; }
     }
 }

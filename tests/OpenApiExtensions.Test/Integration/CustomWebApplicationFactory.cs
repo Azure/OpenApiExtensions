@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace OpenApiExtensions.Test.Integration
 {
-    public class CustomWebApplicationFactory<TEntryPoint> : WebApplicationFactory<TEntryPoint>        
+    public class CustomWebApplicationFactory<TEntryPoint> : WebApplicationFactory<TEntryPoint>
         where TEntryPoint : class
-    {        
+    {
         protected override IWebHostBuilder CreateWebHostBuilder()
         {
             return WebHost.CreateDefaultBuilder().UseEnvironment("Development");
@@ -16,9 +16,9 @@ namespace OpenApiExtensions.Test.Integration
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            //var sourceWebApiAssebly = typeof(TEntryPoint).Assembly;                                    
+            //var sourceWebApiAssebly = typeof(TEntryPoint).Assembly;
             //var sfProjParent = new DirectoryInfo($"{Environment.CurrentDirectory}../../../../../../../src"); // the test projects is under "Asi-common/test" folder
-            //var applicationFolderName = "ServiceHostingTools.TestApp";            
+            //var applicationFolderName = "ServiceHostingTools.TestApp";
             //var webProjectFolder = sourceWebApiAssebly.GetName().Name;
 
             //container.RegisterLocalWebApiService(

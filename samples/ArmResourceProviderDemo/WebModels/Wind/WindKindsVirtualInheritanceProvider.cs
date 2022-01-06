@@ -1,4 +1,4 @@
-﻿using Microsoft.Azure.OpenApiExtensions.Attributes;
+using Microsoft.Azure.OpenApiExtensions.Attributes;
 using System;
 using System.Collections.Generic;
 
@@ -14,14 +14,12 @@ namespace ArmResourceProviderDemo.WebModels.Wind
                 inheritesClassName: "WindIsrael",
                 childClassName: nameof(WindIsraelProperties),
                 innerPropertyClassType: typeof(WindIsraelProperties),
-                inheritesClassDescription: "Wind Israel description"
-            );
+                inheritesClassDescription: "Wind Israel description");
             kindToInheritedMap["IndiaWindKind"] = new VirtuallyInheritedObjectProperties(
                 inheritesClassName: "WindIndia",
                 childClassName: nameof(WindIndiaProperties),
                 innerPropertyClassType: typeof(WindIndiaProperties),
-                inheritesClassDescription: "Wind India description"
-            );
+                inheritesClassDescription: "Wind India description");
 
             return kindToInheritedMap;
         }

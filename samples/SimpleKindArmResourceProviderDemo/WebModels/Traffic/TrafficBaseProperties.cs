@@ -23,5 +23,5 @@ namespace SimpleKindArmResourceProviderDemo.WebModels.Traffic
         public int UsaProperty { get; set; }
     }
 
-    
+
 }

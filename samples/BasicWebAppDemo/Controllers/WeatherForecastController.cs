@@ -70,7 +70,7 @@ namespace BasicWebAppDemo.Controllers
             Tags = new[] { "forecast" })]
         [SwaggerResponse(200, "The WeatherForecast was fetched", typeof(WeatherForecast))]
         [SwaggerResponse(400, "invalid request")]
-        //[SwaggerResponseExample(200, typeof(StringResponseExample))]            
+        //[SwaggerResponseExample(200, typeof(StringResponseExample))]
         [ResponseExample(200, typeof(WeatherForecastExample))]
         [HttpPost]
         public string PostWeather(WeatherForecast weather)
@@ -93,7 +93,7 @@ namespace BasicWebAppDemo.Controllers
             Tags = new[] { "forecast" })]
         [SwaggerResponse(200, "The WeatherForecast was fetched", typeof(WeatherForecast))]
         [SwaggerResponse(400, "invalid request")]
-        //[SwaggerResponseExample(200, typeof(StringResponseExample))]        
+        //[SwaggerResponseExample(200, typeof(StringResponseExample))]
         [ResponseExample(200, typeof(WeatherForecastExample))]
         [RequestExample(typeof(GetWeatherForecastRequestExample))]
         [HttpGet("{geo}")]

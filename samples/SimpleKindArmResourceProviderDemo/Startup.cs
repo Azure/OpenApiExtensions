@@ -20,6 +20,7 @@ namespace SimpleKindArmResourceProviderDemo
     public class Startup
     {
         private readonly SwaggerConfig _swaggerConfig;
+
         public IConfiguration Configuration { get; }
 
         public Startup(IConfiguration configuration)
@@ -28,7 +29,7 @@ namespace SimpleKindArmResourceProviderDemo
 
             var genarateInternalSwagger = Environment.GetCommandLineArgs().Contains("--internal-swagger");
             var genarateExternalSwagger = !genarateInternalSwagger;
-            
+
             _swaggerConfig = new SwaggerConfig
             {
                 PolymorphicSchemaModels = new List<Type> { typeof(TrafficResource), typeof(WindResource) },
@@ -51,7 +52,7 @@ namespace SimpleKindArmResourceProviderDemo
                 ResourceProviderReusableParameters = new List<KeyValuePair<ParameterName, ActualParameterName>> {
                     new KeyValuePair<ParameterName, ActualParameterName>("WorkspaceName", "WorkspaceName") },
                 HideParametersEnabled = genarateExternalSwagger,
-                GenerateExternalSwagger = genarateExternalSwagger,                
+                GenerateExternalSwagger = genarateExternalSwagger,
                 SupportedApiVersions = new[] { "v1" },
                 GlobalCommonFilePath = "../../../../../Global/types.json",
                 RPCommonFilePath = "../Demo/types.json",
@@ -66,7 +67,7 @@ namespace SimpleKindArmResourceProviderDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(c =>
-            {              
+            {
             });
             services.AddArmCompliantSwagger(_swaggerConfig);
 

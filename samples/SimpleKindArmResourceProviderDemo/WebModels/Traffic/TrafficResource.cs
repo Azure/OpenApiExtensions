@@ -7,6 +7,7 @@ namespace SimpleKindArmResourceProviderDemo.WebModels.Traffic
     public class TrafficResource
     {
         public string Id { get; set; }
+
         public CountryKind kind { get; set; }
 
         public TrafficBaseProperties properties { get; set; }
