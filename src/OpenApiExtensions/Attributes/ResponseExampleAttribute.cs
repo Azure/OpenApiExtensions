@@ -12,7 +12,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
         /// <param name="httpCode"></param>
         /// <param name="exampleTypeProvider">The type of ExampleTypeProvider to initiate</param>
         /// <param name="exampleName">Optional. For support multiple examples by example name in single ExampleTypeProvider</param>
-
         public ResponseExampleAttribute(int httpCode, Type exampleTypeProvider, string exampleName = null)
         {
             HttpCode = httpCode;
@@ -26,7 +25,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
             if (exampleName == null)
             {
                 ExampleProviderInstance = (IExamplesProvider)Activator.CreateInstance(exampleTypeProvider);
-            } 
+            }
             else
             {
                 ExampleProviderInstance = (IExamplesProvider)Activator.CreateInstance(exampleTypeProvider, exampleName);
@@ -70,7 +69,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
             {
                 ExampleProviderInstance = (IExamplesProvider)Activator.CreateInstance(exampleTypeProvider, exampleName);
             }
-            
         }
 
         public Type ExampleTypeProvider { get; }

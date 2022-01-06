@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 namespace Microsoft.Azure.OpenApiExtensions.Helpers
@@ -6,7 +6,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Helpers
     public class ArmResourceWrapperNameProvider : ICustomSchemaNameProvider
     {
         /// <summary>
-        /// 
+        /// Get Custom Name
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>

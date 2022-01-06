@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using ArmResourceProviderDemo.WebModels;
 using ArmResourceProviderDemo.WebModels.Traffic;
 using ArmResourceProviderDemo.WebModels.Wind;
@@ -8,12 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using ParameterName = System.String;
 using ActualParameterName = System.String;
+using ParameterName = System.String;
 
 namespace ArmResourceProviderDemo
 {
@@ -59,64 +58,62 @@ namespace ArmResourceProviderDemo
                 Description = "Arm Resource Provider Demo App",
                 ClientName = "ArmResourceProviderDemo"
             };
-    }
-
-
-    // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
-    {
-        services.AddControllers().AddNewtonsoftJson(c =>
-        {
-            c.SerializerSettings.Converters.Add(new ResourceJsonConverter<TrafficResource, TrafficBaseProperties>(
-                new Dictionary<string, Type>
-                {
-                        { "Israel", typeof(TrafficIsraelProperties) },
-                        { "India", typeof(TrafficIndiaProperties) }
-                }));
-            c.SerializerSettings.Converters.Add(new ResourceJsonConverter<WindResource, WindBaseProperties>(
-                new Dictionary<string, Type>
-                {
-                        { "IsraelWindKind", typeof(WindIsraelProperties) },
-                        { "IndiaWindKind", typeof(WindIndiaProperties) }
-                }));
-        });
-        services.AddArmCompliantSwagger(_swaggerConfig);
-
-    }
-
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
         }
 
-        app.UseSwagger(options =>
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
         {
-            options.RouteTemplate = "swagger/{documentName}/swagger.json";
-                // Change generated swagger version to 2.0
-                options.SerializeAsV2 = true;
-        });
-
-        app.UseSwaggerUI(option =>
-        {
-            IEnumerable<string> actualDocumentsToGenerate = _swaggerConfig.SupportedApiVersions;
-            if (actualDocumentsToGenerate == null || !actualDocumentsToGenerate.Any())
+            services.AddControllers().AddNewtonsoftJson(c =>
             {
-                actualDocumentsToGenerate = new[] { _swaggerConfig.DefaultApiVersion };
-            }
-            actualDocumentsToGenerate.ToList().ForEach(v => option.SwaggerEndpoint($"/swagger/{v}/swagger.json", v));
-        });
+                c.SerializerSettings.Converters.Add(new ResourceJsonConverter<TrafficResource, TrafficBaseProperties>(
+                    new Dictionary<string, Type>
+                    {
+                        { "Israel", typeof(TrafficIsraelProperties) },
+                        { "India", typeof(TrafficIndiaProperties) }
+                    }));
+                c.SerializerSettings.Converters.Add(new ResourceJsonConverter<WindResource, WindBaseProperties>(
+                    new Dictionary<string, Type>
+                    {
+                        { "IsraelWindKind", typeof(WindIsraelProperties) },
+                        { "IndiaWindKind", typeof(WindIndiaProperties) }
+                    }));
+            });
+            services.AddArmCompliantSwagger(_swaggerConfig);
+        }
 
-        app.UseRouting();
-
-        app.UseAuthorization();
-
-        app.UseEndpoints(endpoints =>
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            endpoints.MapControllers();
-        });
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseSwagger(options =>
+            {
+                options.RouteTemplate = "swagger/{documentName}/swagger.json";
+            // Change generated swagger version to 2.0
+                options.SerializeAsV2 = true;
+            });
+
+            app.UseSwaggerUI(option =>
+            {
+                IEnumerable<string> actualDocumentsToGenerate = _swaggerConfig.SupportedApiVersions;
+                if (actualDocumentsToGenerate == null || !actualDocumentsToGenerate.Any())
+                {
+                    actualDocumentsToGenerate = new[] { _swaggerConfig.DefaultApiVersion };
+                }
+                actualDocumentsToGenerate.ToList().ForEach(v => option.SwaggerEndpoint($"/swagger/{v}/swagger.json", v));
+            });
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
     }
-}
 }

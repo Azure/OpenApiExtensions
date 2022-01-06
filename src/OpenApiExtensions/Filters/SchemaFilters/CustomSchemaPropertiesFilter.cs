@@ -15,7 +15,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.SchemaFilters
             if (attr != null && !string.IsNullOrEmpty(attr.DescriptionFormat))
             {
                 var humanizedCamelCase = string.Empty;
-                if (context.Type.GenericTypeArguments!= null && context.Type.GenericTypeArguments.Any() )
+                if (context.Type.GenericTypeArguments != null && context.Type.GenericTypeArguments.Any())
                 {
                     humanizedCamelCase = Regex.Replace(context.Type.GenericTypeArguments.First().Name, "([A-Z])", " $1").Trim();
                 }

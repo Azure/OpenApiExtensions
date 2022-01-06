@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Mime;
-using Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters;
 using Microsoft.Azure.OpenApiExtensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -8,7 +7,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
 {
     /// <summary>
-    /// adds default response to each Operation    
+    /// adds default response to each Operation
     /// </summary>
     public class DefaultResponseOperationFilter : IOperationFilter
     {
@@ -51,7 +50,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
 
                 operation.Responses.TryAdd("default", defaultErrorResponse);
             }
-
         }
     }
 }

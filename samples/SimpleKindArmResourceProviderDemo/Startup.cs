@@ -1,6 +1,6 @@
-using SimpleKindArmResourceProviderDemo.WebModels;
-using SimpleKindArmResourceProviderDemo.WebModels.Traffic;
-using SimpleKindArmResourceProviderDemo.WebModels.Wind;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.OpenApiExtensions.Options;
@@ -8,12 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using ParameterName = System.String;
+using SimpleKindArmResourceProviderDemo.WebModels.Traffic;
+using SimpleKindArmResourceProviderDemo.WebModels.Wind;
 using ActualParameterName = System.String;
+using ParameterName = System.String;
 
 namespace SimpleKindArmResourceProviderDemo
 {
@@ -47,7 +45,7 @@ namespace SimpleKindArmResourceProviderDemo
                                         MinLength = 1,
                                     },
                         }
-                    }
+                   }
                 },
                 ResourceProviderReusableParameters = new List<KeyValuePair<ParameterName, ActualParameterName>> {
                     new KeyValuePair<ParameterName, ActualParameterName>("WorkspaceName", "WorkspaceName") },
@@ -62,7 +60,6 @@ namespace SimpleKindArmResourceProviderDemo
             };
         }
 
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -70,7 +67,6 @@ namespace SimpleKindArmResourceProviderDemo
             {
             });
             services.AddArmCompliantSwagger(_swaggerConfig);
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

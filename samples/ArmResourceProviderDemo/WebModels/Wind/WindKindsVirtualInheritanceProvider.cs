@@ -1,6 +1,5 @@
-using Microsoft.Azure.OpenApiExtensions.Attributes;
-using System;
 using System.Collections.Generic;
+using Microsoft.Azure.OpenApiExtensions.Attributes;
 
 namespace ArmResourceProviderDemo.WebModels.Wind
 {

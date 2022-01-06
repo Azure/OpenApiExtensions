@@ -70,7 +70,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.SchemaFilters
                             var val = new OpenApiObject();
                             val.Add("value", new OpenApiString(label));
                             values.Add(val);
-                        }                
+                        }
                         xMsEnumExtensionObject.Add("values", values);
                         schema.Example = schema.Enum.First();
                     }

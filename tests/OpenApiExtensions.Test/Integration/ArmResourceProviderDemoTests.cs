@@ -1,9 +1,8 @@
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using Xunit;
 using FluentAssertions;
+using Newtonsoft.Json;
+using Xunit;
 using ApiFixture = OpenApiExtensions.Test.Integration.CustomWebApplicationFactory<ArmResourceProviderDemo.Program>;
 
 namespace OpenApiExtensions.Test.Integration

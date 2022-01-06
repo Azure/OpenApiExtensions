@@ -1,11 +1,11 @@
-using JsonSubTypes;
-using Microsoft.Azure.OpenApiExtensions.Attributes;
-using Newtonsoft.Json;
-using BasicWebAppDemo.WebModels.Common;
-using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using BasicWebAppDemo.WebModels.Common;
+using JsonSubTypes;
+using Microsoft.Azure.OpenApiExtensions.Attributes;
+using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BasicWebAppDemo.V2
 {
@@ -14,12 +14,11 @@ namespace BasicWebAppDemo.V2
     [JsonSubtypes.KnownSubType(typeof(WeatherForecastNetanya), GeoJsonObjectKind.Netanya)]
     [JsonSubtypes.KnownSubType(typeof(WeatherForecastEilat), GeoJsonObjectKind.Eilat)]
     [ClientFlatten]
-    abstract public class WeatherForecast
+    public abstract class WeatherForecast
     {
-
         [Required]
         [JsonProperty(PropertyName = "kind")]
-        abstract public GeoJsonObjectKind Kind { get; set; }
+        public abstract GeoJsonObjectKind Kind { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -42,8 +41,6 @@ namespace BasicWebAppDemo.V2
         public string Version { get; set; } = "2";
     }
 
-
-
     /// <summary>
     /// Som description!
     /// </summary>
@@ -55,7 +52,7 @@ namespace BasicWebAppDemo.V2
             Kind = GeoJsonObjectKind.Netanya;
         }
 
-        [Mutability(Mutability = MutabilityTypes.read)]
+        [Mutability(Mutability = MutabilityTypes.Read)]
         [ReadOnly(true)]
         public int SomeV2NetanyaProp { get; set; }
 

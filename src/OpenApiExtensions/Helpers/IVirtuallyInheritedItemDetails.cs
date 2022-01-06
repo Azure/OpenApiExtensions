@@ -1,12 +1,10 @@
 ﻿using Microsoft.Azure.OpenApiExtensions.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.Azure.OpenApiExtensions.Helpers
 {
     public interface IVirtuallyInheritedItemDetails<T> where T : Enum
-    {        
+    {
         VirtuallyInheritedObjectProperties Provide(T kindName);
     }
 

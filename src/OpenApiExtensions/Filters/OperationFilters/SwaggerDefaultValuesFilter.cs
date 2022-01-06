@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -11,7 +11,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
     /// </summary>
     public class SwaggerDefaultValuesFilter : IOperationFilter
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SwaggerDefaultValuesFilter"/> class.
         /// </summary>

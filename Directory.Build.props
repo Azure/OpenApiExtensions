@@ -16,11 +16,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Nullable>disable</Nullable>    
+    <Nullable>disable</Nullable>
+    <CodeAnalysisRuleSet>$(SolutionDir)/common.ruleset</CodeAnalysisRuleSet>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsNotAsErrors>618,1030</WarningsNotAsErrors>
     <!-- see CS618,CS1030 -->
-    </PropertyGroup>
+  </PropertyGroup>
 
   <ItemGroup Label="roslyn analyzers">
     <!-- for (CAxxxx) https://github.com/dotnet/roslyn-analyzers -->

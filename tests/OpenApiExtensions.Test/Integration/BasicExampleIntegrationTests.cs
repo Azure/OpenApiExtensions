@@ -1,9 +1,8 @@
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using Xunit;
 using FluentAssertions;
+using Newtonsoft.Json;
+using Xunit;
 using ApiFixture = OpenApiExtensions.Test.Integration.CustomWebApplicationFactory<BasicWebAppDemo.Program>;
 
 namespace OpenApiExtensions.Test.Integration
@@ -32,7 +31,6 @@ namespace OpenApiExtensions.Test.Integration
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
-
 
         [Theory]
         [InlineData("/swagger/2021-09-01-preview/swagger.json")]

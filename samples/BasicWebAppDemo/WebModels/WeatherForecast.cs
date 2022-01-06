@@ -1,11 +1,11 @@
-using JsonSubTypes;
-using Microsoft.Azure.OpenApiExtensions.Attributes;
-using Newtonsoft.Json;
-using BasicWebAppDemo.WebModels.Common;
-using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using BasicWebAppDemo.WebModels.Common;
+using JsonSubTypes;
+using Microsoft.Azure.OpenApiExtensions.Attributes;
+using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace BasicWebAppDemo.V1
 {
@@ -18,12 +18,11 @@ namespace BasicWebAppDemo.V1
     [JsonSubtypes.KnownSubType(typeof(WeatherForecastNetanya), GeoJsonObjectKind.Netanya)]
     [JsonSubtypes.KnownSubType(typeof(WeatherForecastEilat), GeoJsonObjectKind.Eilat)]
     [ClientFlatten]
-    abstract public class WeatherForecast
+    public abstract class WeatherForecast
     {
-
         [Required]
         [JsonProperty(PropertyName = "kind")]
-        abstract public GeoJsonObjectKind Kind { get; set; }
+        public abstract GeoJsonObjectKind Kind { get; set; }
 
         /// <summary>
         /// Get or sets DateTime (this is internal comment and not be shown on swagger, as we use here SwaggerSchema that overrides it )
@@ -46,7 +45,6 @@ namespace BasicWebAppDemo.V1
         public SomeObj Properties { get; set; }
     }
 
-
     /// <summary>
     /// Som description!
     /// </summary>
@@ -58,7 +56,7 @@ namespace BasicWebAppDemo.V1
             Kind = GeoJsonObjectKind.Netanya;
         }
 
-        [Mutability(Mutability = MutabilityTypes.read)]
+        [Mutability(Mutability = MutabilityTypes.Read)]
         [ReadOnly(true)]
         public int SomeV1NetanyaProp { get; set; }
 

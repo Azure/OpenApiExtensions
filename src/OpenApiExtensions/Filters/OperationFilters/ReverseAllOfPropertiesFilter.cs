@@ -7,8 +7,8 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
     /// <summary>
     /// Solve known issues with Swashbuckle 5
     /// For more details:
-    ///     https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1488 , 
-    ///     https://github.com/Azure/autorest/issues/3417 
+    ///     https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1488 ,
+    ///     https://github.com/Azure/autorest/issues/3417
     /// </summary>
     public class ReverseAllOfPropertiesFilter : ISchemaFilter
     {

@@ -1,4 +1,4 @@
-﻿using Microsoft.Azure.OpenApiExtensions.Helpers;
+using Microsoft.Azure.OpenApiExtensions.Helpers;
 using System;
 
 namespace Microsoft.Azure.OpenApiExtensions.Attributes
@@ -42,11 +42,11 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
 
     public class ConstNameProvider : ICustomSchemaNameProvider
     {
-        public string _name;
+        public string Name { get; }
         public ConstNameProvider(string name)
         {
-            _name = name;
+            Name = name;
         }
-        public string GetCustomName(Type type) => _name;
+        public string GetCustomName(Type type) => Name;
     }
 }

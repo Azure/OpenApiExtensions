@@ -42,7 +42,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.SchemaFilters
                     property = context.Type.GetProperty(schemaProperty.Key, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                 }
 
-
                 if (property != null)
                 {
                     var attr = (ReadOnlyPropertyAttribute)property.GetCustomAttributes(typeof(ReadOnlyPropertyAttribute), false).SingleOrDefault();

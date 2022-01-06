@@ -7,14 +7,12 @@ namespace SimpleKindArmResourceProviderDemo.WebModels.Traffic
     {
         protected override string GetChildSwaggerDisplayName(CountryKind kindValue)
         {
-
             return $"{kindValue.ToString().ToUpper()}TrafficProperties";
         }
 
         protected override string GetDescription(CountryKind kindValue)
         {
             return $"kind:{kindValue} description";
-
         }
 
         protected override string GetParentSwaggerDisplayName(CountryKind kindValue)

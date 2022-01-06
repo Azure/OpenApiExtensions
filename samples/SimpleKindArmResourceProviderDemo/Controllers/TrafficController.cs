@@ -1,11 +1,7 @@
-﻿using SimpleKindArmResourceProviderDemo.WebModels;
-using SimpleKindArmResourceProviderDemo.WebModels.Traffic;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SimpleKindArmResourceProviderDemo.WebModels.Traffic;
 
 namespace SimpleKindArmResourceProviderDemo.Controllers
 {
@@ -13,7 +9,7 @@ namespace SimpleKindArmResourceProviderDemo.Controllers
     [Route("[controller]")]
     public class TrafficController : ControllerBase
     {
-        private static readonly Dictionary<string, TrafficResource> _db = new Dictionary<string, TrafficResource>();
+        private static readonly Dictionary<string, TrafficResource> Db = new Dictionary<string, TrafficResource>();
         private readonly ILogger<TrafficController> _logger;
 
         public TrafficController(ILogger<TrafficController> logger)
@@ -24,13 +20,13 @@ namespace SimpleKindArmResourceProviderDemo.Controllers
         [HttpGet]
         public IEnumerable<TrafficResource> Get()
         {
-            return _db.Values;
+            return Db.Values;
         }
 
         [HttpPut]
         public IActionResult Put(TrafficResource traffic)
         {
-            _db[traffic.Id] = traffic;
+            Db[traffic.Id] = traffic;
             return Ok();
         }
     }

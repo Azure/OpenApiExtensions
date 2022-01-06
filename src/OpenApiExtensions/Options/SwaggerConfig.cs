@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.OpenApi.Models;
 using FileNameWithoutExtension = System.String;
-using TypeName = System.String;
 using ParemeterName = System.String;
-using ActualParemeterName = System.String;
+using TypeName = System.String;
 
 #pragma warning disable CS1711 // XML comment has a typeparam tag, but there is no type parameter by that name
 
@@ -17,7 +16,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         /// Gets Or Sets list of base/abstract types, the Swagger will use register all derived classes as Swagger definitions
         /// make sure to decorate your base classes with JsonConverterAttribute with a valid discriminator (https://manuc66.github.io/JsonSubTypes/)
         /// </summary>
-        /// <value></value>
         public List<Type> PolymorphicSchemaModels { get; set; } = new List<Type>();
         public bool ModelEnumsAsString { get; set; } = true;
 
@@ -45,19 +43,16 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         public Dictionary<TypeName, OpenApiParameter> GlobalCommonReusableParameters { get; set; } = new Dictionary<TypeName, OpenApiParameter>();
 
         /// <summary>
-        /// Version Level Common Definitions 
+        /// Version Level Common Definitions
         /// </summary>
         /// <typeparam name="TypeName">the Definition (schema) name</typeparam>
         /// <typeparam name="FileNameWithoutExtension">the file name where the Definition exists (the file should under the version folder on Common folder)</typeparam>
         /// <returns></returns>
         public Dictionary<TypeName, FileNameWithoutExtension> VersionCommonReusableDefinitions { get; set; } = new Dictionary<TypeName, FileNameWithoutExtension>();
 
-
         /// <summary>
         /// Resource Provider Common Definitions (refer Common folder under your resource provider https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/common/> )
         /// </summary>
-        /// <typeparam name="ParemeterName">the Definition (schema) name </typeparam>
-        /// <typeparam name="FileNameWithoutExtension">the Definition (schema) name </typeparam>        
         /// <returns></returns>
         public List<KeyValuePair<ParemeterName, FileNameWithoutExtension>> ResourceProviderReusableParameters { get; set; } = new List<KeyValuePair<ParemeterName, FileNameWithoutExtension>>();
 
@@ -75,7 +70,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         /// <summary>
         /// This on conjunction with attributes such : SwaggerHideParameterAttribute will hide your Path Parameters from the swagger (consider using with GenerateExternalSwagger=true)
         /// </summary>
-        /// <value></value>
         public bool HideParametersEnabled { get; set; }
         public IEnumerable<string> SupportedApiVersions { get; set; }
 
@@ -110,7 +104,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         {
             return (GlobalCommonReusableParameters ?? new Dictionary<TypeName, OpenApiParameter>())
                 .Union(
-                (DocumentLevelReusableParameters ?? new Dictionary<TypeName, OpenApiParameter>()))
+                DocumentLevelReusableParameters ?? new Dictionary<TypeName, OpenApiParameter>())
                 .ToDictionary(k => k.Key, v => v.Value);
         }
 

@@ -123,7 +123,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
                     ApplyWithVersion(operation, apiDescription, swaggerDoc.Info);
                 }
             }
-
         }
 
         public class SwaggerOperationExample
@@ -132,11 +131,9 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
             {
                 Parameters = new object();
                 Responses = new Dictionary<string, object>();
-
             }
             public object Parameters { get; set; }
             public Dictionary<string, object> Responses { get; set; }
         }
     }
 }
-

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 using Microsoft.Azure.OpenApiExtensions.Attributes;
 using Microsoft.Azure.OpenApiExtensions.Helpers;
 using Microsoft.OpenApi.Any;
@@ -75,7 +74,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters
             else
             {
                 // abstract schema not in this document
-                return;              
+                return;
             }
 
             // set up a discriminator property (it must be required)
@@ -87,7 +86,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters
             {
                 throw new Exception("Missing property in " + abstractType.Name + " matching discriminator name");
             }
-
 
             // generate and register schema for all of the derived classes
             foreach (var derivedType in derivedTypes)
@@ -159,7 +157,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters
             property.Extensions.Add("$ref", new OpenApiString($"#/definitions/{derivedType.Value.InnerPropertyClassName}"));
             return property;
         }
-     
+
         private static Type GetTempTypeToBind(Type type)
         {
             Type concreteTemplateType = typeof(DummyTemplate<>);
@@ -171,5 +169,4 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters
         {
         }
     }
-
 }

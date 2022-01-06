@@ -1,20 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.Azure.OpenApiExtensions.Filters;
-using Microsoft.Azure.OpenApiExtensions.Attributes;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Azure.OpenApiExtensions.Attributes;
+using Microsoft.Azure.OpenApiExtensions.Filters;
+using Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters;
 using Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters;
 using Microsoft.Azure.OpenApiExtensions.Filters.SchemaFilters;
-using Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace Microsoft.Azure.OpenApiExtensions.Options
 {
@@ -60,7 +60,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
                 }
                 if (config.UseAllOfToExtendReferenceSchemas)
                 {
-                    c.UseAllOfToExtendReferenceSchemas(); // we prefer $ref over AllOf (and set up description ourselves)                    
+                    c.UseAllOfToExtendReferenceSchemas(); // we prefer $ref over AllOf (and set up description ourselves)
                 }
                 c.DocInclusionPredicate((docName, apiDesc) => DocumentApiInclusion(config, docName, apiDesc));
 
@@ -115,7 +115,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
                 // Adds "readOnly": true to the property marked by Microsoft.Azure.Global.Services.Common.Service.OpenApi.ValidationAttribute.ReadOnlyPropertyAttribute
                 c.SchemaFilter<AddReadOnlyPropertyFilter>();
 
-                ////Handle bug that Swashbuckle has: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1488 , https://github.com/Azure/autorest/issues/3417 
+                ////Handle bug that Swashbuckle has: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1488 , https://github.com/Azure/autorest/issues/3417
                 //c.SchemaFilter<ReverseAllOfPropertiesFilter>();
                 // Operation level filters
                 // Set Description field using the XMLDoc summary if absent and clear summary. By
@@ -141,7 +141,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
                 // Removes parameters that shouldn't be on swagger (if process specifies--externalswagger-gen in command line)
                 c.OperationFilter<HideParamInDocsFilter>(config);
 
-
                 // This is applied if swagger is generated using open api 3.0 spec, helps to fix bug in autorest tool.
                 // No impact for swagger generated using 2.0 spec.
                 c.OperationFilter<ArrayInQueryParametersFilter>();
@@ -157,7 +156,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
                 {
                     c.SchemaFilter<CustomSchemaInheritanceFilter>(config);
 
-                    // This is used to add x-ms-examples field to each operation. We use our own filter in order to allow for customizing the destination path.                    
+                    // This is used to add x-ms-examples field to each operation. We use our own filter in order to allow for customizing the destination path.
                     c.DocumentFilter<ExampleFilter>(config);
 
                     c.DocumentFilter<UpdateCommonRefsDocumentFilter>(config);
@@ -194,6 +193,36 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
             return app;
         }
 
+        internal static string DefaultSchemaIdSelector(Type modelType)
+        {
+            // check if generic paramater has custom naming
+            if (modelType.IsConstructedGenericType)
+            {
+                var firstGenericArgType = modelType.GetGenericArguments()[0];
+                var applyToParentGenericParamNaming = firstGenericArgType.GetCustomAttributes<SwaggerSchemaNameStrategyAttribute>().SingleOrDefault(at => at.NamingStrategy == NamingStrategy.ApplyToParentWrapper);
+                if (applyToParentGenericParamNaming != null)
+                {
+                    return applyToParentGenericParamNaming.CustomNameProvider.GetCustomName(modelType);
+                }
+            }
+
+            var customNamingAttribute = modelType.GetCustomAttributes<SwaggerSchemaNameStrategyAttribute>().SingleOrDefault(at => at.NamingStrategy == NamingStrategy.Custom);
+            if (customNamingAttribute != null)
+            {
+                return customNamingAttribute.CustomNameProvider.GetCustomName(modelType);
+            }
+
+            if (!modelType.IsConstructedGenericType)
+            {
+                return modelType.Name;
+            }
+
+            var prefix = modelType.GetGenericArguments()
+                .Select(genericArg => DefaultSchemaIdSelector(genericArg))
+                .Aggregate((previous, current) => previous + current);
+
+            return prefix + modelType.Name.Split('`').First();
+        }
 
         private static bool DocumentApiInclusion(SwaggerConfig config, string docName, ApiDescription apiDesc)
         {
@@ -216,7 +245,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
 
             if ((supportedApiVersions == null || !supportedApiVersions.Any()) && !config.GenerateExternalSwagger)
             {
-                // all in same version.. 
+                // all in same version..
                 return true;
             }
             // this filters apiEndpoints per api-version
@@ -249,37 +278,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
                 return endpointVersions.Any(v => v == docName);
             }
             return apiVersions.Any(v => v == docName);
-        }
-
-        internal static string DefaultSchemaIdSelector(Type modelType)
-        {
-            // check if generic paramater has custom naming
-            if (modelType.IsConstructedGenericType)
-            {
-                var firstGenericArgType = modelType.GetGenericArguments()[0];
-                var applyToParentGenericParamNaming = firstGenericArgType.GetCustomAttributes<SwaggerSchemaNameStrategyAttribute>().SingleOrDefault(at => at.NamingStrategy == NamingStrategy.ApplyToParentWrapper);
-                if (applyToParentGenericParamNaming != null)
-                {
-                    return applyToParentGenericParamNaming.CustomNameProvider.GetCustomName(modelType);
-                }
-            }
-
-            var customNamingAttribute = modelType.GetCustomAttributes<SwaggerSchemaNameStrategyAttribute>().SingleOrDefault(at => at.NamingStrategy == NamingStrategy.Custom);
-            if (customNamingAttribute != null)
-            {
-                return customNamingAttribute.CustomNameProvider.GetCustomName(modelType);
-            }
-
-            if (!modelType.IsConstructedGenericType)
-            {
-                return modelType.Name;
-            }
-
-            var prefix = modelType.GetGenericArguments()
-                .Select(genericArg => DefaultSchemaIdSelector(genericArg))
-                .Aggregate((previous, current) => previous + current);
-
-            return prefix + modelType.Name.Split('`').First();
         }
     }
 

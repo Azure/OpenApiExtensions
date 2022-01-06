@@ -1,4 +1,3 @@
-﻿using System.Collections.Generic;
 using ArmResourceProviderDemo.WebModels;
 using ArmResourceProviderDemo.WebModels.Speed;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +8,6 @@ namespace ArmResourceProviderDemo.Controllers
     [Route("[controller]")]
     public class SpeedController : ControllerBase
     {
-
         [HttpGet]
         public ResourceProxy<SpeedProperties> Get()
         {

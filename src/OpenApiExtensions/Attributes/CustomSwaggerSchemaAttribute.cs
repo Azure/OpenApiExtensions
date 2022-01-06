@@ -12,7 +12,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
         }
 
         /// <summary>
-        /// Can be string of format with the following Directives: {GenericType}        
+        /// Can be string of format with the following Directives: {GenericType}
         /// </summary>
         /// <example>List of {GenericType} models</example>
         public string DescriptionFormat { get; }

@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 
 namespace Microsoft.Azure.OpenApiExtensions.Options
-
 {
     /// <summary>
     /// Corresponds to openAPI document info section.

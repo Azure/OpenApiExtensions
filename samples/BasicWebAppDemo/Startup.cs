@@ -1,21 +1,20 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNet.OData.Formatter;
-using Microsoft.Net.Http.Headers;
 using Microsoft.AspNet.OData.Query;
-using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.OpenApiExtensions.Options;
-using ParameterName = System.String;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 using ActualParameterName = System.String;
+using ParameterName = System.String;
 
 namespace BasicWebAppDemo
 {
@@ -31,7 +30,7 @@ namespace BasicWebAppDemo
 
             var genarateInternalSwagger = Environment.GetCommandLineArgs().Contains("--internal-swagger");
             var genarateExternalSwagger = !genarateInternalSwagger;
-            var OdataReusableParameters = new List<KeyValuePair<ParameterName, ActualParameterName>>() {
+            var odataReusableParameters = new List<KeyValuePair<ParameterName, ActualParameterName>>() {
                 new KeyValuePair<ParameterName, ParameterName>("$filter", "ODataFilter"),
                 new KeyValuePair<ParameterName, ParameterName>("$orderBy", "ODataOrderBy"),
                 new KeyValuePair<ParameterName, ParameterName>("$skipToken", "ODataSkipToken"),
@@ -55,9 +54,9 @@ namespace BasicWebAppDemo
                                         MinLength = 1,
                                     },
                         }
-                    }
+                     }
                 },
-                ResourceProviderReusableParameters = OdataReusableParameters.Concat(
+                ResourceProviderReusableParameters = odataReusableParameters.Concat(
                     new List<KeyValuePair<ParameterName, ActualParameterName>> {
                         new KeyValuePair<ParameterName, ActualParameterName>("WorkspaceName", "WorkspaceName") })
                 .ToList(),
@@ -101,7 +100,6 @@ namespace BasicWebAppDemo
                     {
                         inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
                     }
-
                 })
                 .AddNewtonsoftJson();
 
@@ -116,7 +114,6 @@ namespace BasicWebAppDemo
                 app.UseDeveloperExceptionPage();
             }
             app.UseApiVersioning();
-
 
             app.UseSwagger(options =>
             {

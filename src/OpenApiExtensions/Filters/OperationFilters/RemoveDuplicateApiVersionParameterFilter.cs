@@ -15,7 +15,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
     /// </summary>
     public class RemoveDuplicateApiVersionParameterFilter : IOperationFilter
     {
-        const string HttpHeaderNamesApiVersion = "api-version";       
+        const string HttpHeaderNamesApiVersion = "api-version";
 
         /// <inheritdoc/>
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
@@ -60,7 +60,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
                 // while populate for local testing.
                 // first element only
                 else if (
-                    //!this.config.IsSwaggerSpecGenerationInProgress && 
+                    //!this.config.IsSwaggerSpecGenerationInProgress &&
                     parameter.Schema.Default == null)
                 {
                     parameter.Schema.Default = new OpenApiString(description.DefaultValue.ToString());

@@ -5,7 +5,7 @@
         object GetExample();
     }
 
-    public abstract  class BodyExamplesProvider : IExamplesProvider
+    public abstract class BodyExamplesProvider : IExamplesProvider
     {
         public object GetExample()
         {
@@ -32,6 +32,5 @@
         {
             public TInnerBodyValue Value { get; set; }
         }
-
     }
 }

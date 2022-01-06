@@ -1,7 +1,6 @@
 ﻿using System;
 
 namespace Microsoft.Azure.OpenApiExtensions.Attributes
-
 {
     /// <summary>
     /// Model properties marked with this attribute can only be part of response objects and should never be set in request.

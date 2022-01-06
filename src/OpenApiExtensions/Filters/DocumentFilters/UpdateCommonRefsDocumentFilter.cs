@@ -50,7 +50,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
                 list.ForEach(prop => prop.Value.Type = "object");
             }
 
-
             var fixingActions = new List<Action>();
 
             foreach (var schema in swaggerDoc.Components.Schemas)
@@ -125,7 +124,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
                         {
                             Extensions = new Dictionary<string, IOpenApiExtension>
                             {
-                                    { "$ref" , new OpenApiString(referenceLink) } // adding ref as extension cause according to JSON standards $ref shouldne have any other properties
+                                    { "$ref", new OpenApiString(referenceLink) } // adding ref as extension cause according to JSON standards $ref shouldne have any other properties
                             },
                             Description = prop.Value.Description,
                             ReadOnly = prop.Value.ReadOnly,
@@ -136,7 +135,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
                         schema.Value.Properties.Remove(prop.Key);
                         schema.Value.Properties.Add(prop.Key, refSchema);
                     });
-
                 }
             }
             return fixingActions;
@@ -178,7 +176,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
                     opParam.Reference = new OpenApiReference { ExternalResource = $"{_config.VersionCommonFolderPath}{reuseParamFileName}.json{ParametersPrefix}{reuseParamName}" };
                 }
             }
-
         }
 
         private void RemoveReusedEntitiesFromDocument(OpenApiDocument swaggerDoc)

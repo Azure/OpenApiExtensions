@@ -18,7 +18,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.OperationFilters
                     Required = true,
                     Schema = new OpenApiSchema
                     {
-                        Type = "string",                       
+                        Type = "string",
                         MinLength = 1
                     }
                 });

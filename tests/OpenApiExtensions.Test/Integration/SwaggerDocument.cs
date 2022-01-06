@@ -1,16 +1,15 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace OpenApiExtensions.Test.Integration
 {
     internal class SwaggerDocument
     {
-        public Dictionary<string, SwaggerPath> Paths  { get; set; }
+        public Dictionary<string, SwaggerPath> Paths { get; set; }
 
         public Dictionary<string, object> Definitions { get; set; }
 
         public SwaggerDocumentInfo Info { get; set; }
-
     }
 
     class SwaggerDocumentInfo
@@ -20,8 +19,6 @@ namespace OpenApiExtensions.Test.Integration
 
     class SwaggerPath : Dictionary<string, SwaggerOperation>
     {
-
-
     }
 
     class SwaggerOperation

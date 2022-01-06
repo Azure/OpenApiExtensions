@@ -19,7 +19,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.SchemaFilters
             _config = config;
         }
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
-        {          
+        {
             var attr = context.Type.GetCustomAttribute<CustomSwaggerSchemaInheritanceAttribute>();
             if (attr != null && schema.Properties.Any())
             {

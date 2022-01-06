@@ -6,7 +6,6 @@ namespace Microsoft.Azure.OpenApiExtensions.Helpers
     {
         public BasicAsiRequestExample()
         {
-
         }
         public BasicAsiRequestExample(string apiVersion)
         {
@@ -15,9 +14,9 @@ namespace Microsoft.Azure.OpenApiExtensions.Helpers
         [JsonProperty("api-version")]
         [System.Text.Json.Serialization.JsonPropertyName("api-version")]
         public string ApiVersion { get; set; }
-        public string subscriptionId { get; set; } = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-        public string resourceGroupName { get; set; } = "myRg";
-        public string workspaceName { get; set; } = "myWorkspace";
-        public string operationalInsightsResourceProvider { get; set; } = "Microsoft.OperationalInsights";
+        public string SubscriptionId { get; set; } = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        public string ResourceGroupName { get; set; } = "myRg";
+        public string WorkspaceName { get; set; } = "myWorkspace";
+        public string OperationalInsightsResourceProvider { get; set; } = "Microsoft.OperationalInsights";
     }
 }

@@ -1,13 +1,11 @@
 ﻿using Microsoft.Azure.OpenApiExtensions.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.Azure.OpenApiExtensions.Helpers
 {
     public class SimpleKindVirtualInheritanceProvider<T> : IVirtualInheritancesProvider where T : Enum
     {
-
         private IVirtuallyInheritedItemDetails<T> _virtuallyInheritedItemDetails;
         private Type _kindEnum;
 
@@ -20,7 +18,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Helpers
         public Dictionary<string, VirtuallyInheritedObjectProperties> GetVirtualInheritances(string documentVersion)
         {
             var kindToInheritedMap = new Dictionary<string, VirtuallyInheritedObjectProperties>();
-            foreach (T connectorKind in Enum.GetValues(_kindEnum))            
+            foreach (T connectorKind in Enum.GetValues(_kindEnum))
             {
                 kindToInheritedMap[connectorKind.ToString()] = _virtuallyInheritedItemDetails.Provide(connectorKind);
             }

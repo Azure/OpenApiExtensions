@@ -1,8 +1,7 @@
-﻿using ArmResourceProviderDemo.WebModels;
+using System.Collections.Generic;
 using ArmResourceProviderDemo.WebModels.Traffic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 
 namespace ArmResourceProviderDemo.Controllers
 {
@@ -10,7 +9,7 @@ namespace ArmResourceProviderDemo.Controllers
     [Route("[controller]")]
     public class TrafficController : ControllerBase
     {
-        private static readonly Dictionary<string, TrafficResource> _db = new Dictionary<string, TrafficResource>();
+        private static readonly Dictionary<string, TrafficResource> Db = new Dictionary<string, TrafficResource>();
         private readonly ILogger<TrafficController> _logger;
 
         public TrafficController(ILogger<TrafficController> logger)
@@ -21,13 +20,13 @@ namespace ArmResourceProviderDemo.Controllers
         [HttpGet]
         public IEnumerable<TrafficResource> Get()
         {
-            return _db.Values;
+            return Db.Values;
         }
 
         [HttpPut]
         public TrafficResource Put(TrafficResource traffic)
         {
-            _db[traffic.Id] = traffic;
+            Db[traffic.Id] = traffic;
             return traffic;
         }
     }
