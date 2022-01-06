@@ -1,10 +1,5 @@
-﻿using Microsoft.Azure.OpenApiExtensions.Helpers;
-using SimpleKindArmResourceProviderDemo.WebModels.Wind;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using Microsoft.Azure.OpenApiExtensions.Helpers;
 
 namespace SimpleKindArmResourceProviderDemo.WebModels.Traffic
 {
@@ -12,26 +7,30 @@ namespace SimpleKindArmResourceProviderDemo.WebModels.Traffic
     {
         protected override string GetChildSwaggerDisplayName(CountryKind kindValue)
         {
-            
-            return $"{kindValue.ToString().ToUpper()}WindProperties";
+
+            return $"{kindValue.ToString().ToUpper()}TrafficProperties";
         }
 
         protected override string GetDescription(CountryKind kindValue)
         {
-              return $"kind:{kindValue} description";
-                          
+            return $"kind:{kindValue} description";
+
         }
 
         protected override string GetParentSwaggerDisplayName(CountryKind kindValue)
         {
-            return $"{kindValue.ToString().ToUpper()}Wind";
+            return $"{kindValue.ToString().ToUpper()}Traffic";
         }
 
         protected override Type GetPropertiesClass(CountryKind kindValue)
         {
-            TextInfo info = CultureInfo.CurrentCulture.TextInfo;
-            return this.GetType().Assembly.GetType($"SimpleKindArmResourceProviderDemo.WebModels.Wind.Wind{info.ToTitleCase(kindValue.ToString())}Properties");
+            string propertiesClassName = $"SimpleKindArmResourceProviderDemo.WebModels.Traffic.Traffic{ToCamelCase(kindValue)}Properties";
+            return this.GetType().Assembly.GetType(propertiesClassName);
+        }
 
+        private string ToCamelCase(CountryKind kindValue)
+        {
+            return string.Concat(kindValue.ToString()[0].ToString().ToUpper(), kindValue.ToString().ToLower().AsSpan(1));
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Attributes
         ApplyToParentWrapper,
     }
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum, AllowMultiple = true, Inherited = true)]
     public class SwaggerSchemaNameStrategyAttribute : Attribute
     {
         public SwaggerSchemaNameStrategyAttribute(NamingStrategy namingStrategy, Type customNameProvider = null)

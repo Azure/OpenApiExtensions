@@ -1,7 +1,11 @@
-﻿using ArmResourceProviderDemo.WebModels.Traffic;
+﻿using ArmResourceProviderDemo.WebModels;
+using ArmResourceProviderDemo.WebModels.Traffic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ArmResourceProviderDemo.Controllers
 {
@@ -24,10 +28,10 @@ namespace ArmResourceProviderDemo.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(TrafficResource traffic)
+        public TrafficResource Put(TrafficResource traffic)
         {
             _db[traffic.Id] = traffic;
-            return Ok();
+            return traffic;
         }
     }
 }

@@ -13,10 +13,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="Configuration"/> class.
         /// </summary>
-        /// <param name="info">Document info section details.</param>
-        /// <param name="xmlCommentsFileNames">Xml comment file name.</param>
-        /// <param name="reusableParameters">Resuable parameters.</param>
-        /// <param name="polymorphicTypes">List of polymorphic types.</param>
+        /// <param name="info">Document info section details.</param>        
         public Configuration(OpenApiDocumentInfo info)
         {
             if (info == null)

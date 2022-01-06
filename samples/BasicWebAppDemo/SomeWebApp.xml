@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BasicWebAppDemo</name>
+    </assembly>
+    <members>
+        <member name="P:BasicWebAppDemo.V1.WeatherForecast.Properties">
+            <summary>
+            gets or sets props
+            </summary>
+            <example>gfgbf</example>
+        </member>
+        <member name="T:BasicWebAppDemo.V1.WeatherForecastNetanya">
+            <summary>
+            Som description!
+            </summary>    
+        </member>
+        <member name="P:BasicWebAppDemo.V2.WeatherForecast.Properties">
+            <summary>
+            gets or sets props
+            </summary>
+        </member>
+        <member name="P:BasicWebAppDemo.V2.WeatherForecast.Version">
+            <summary>
+            gets or sets props
+            </summary>
+        </member>
+        <member name="T:BasicWebAppDemo.V2.WeatherForecastNetanya">
+            <summary>
+            Som description!
+            </summary>    
+        </member>
+    </members>
+</doc>

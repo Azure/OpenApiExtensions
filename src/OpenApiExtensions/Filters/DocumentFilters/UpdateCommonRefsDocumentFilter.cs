@@ -60,14 +60,17 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
                 fixingActions.AddRange(commonizePropertiesFixingActions);
 
                 // Commonize Schemas to RP ReusableParameters
-                if (_config.ResourceProviderReusableParameters.Contains(schema.Key))
+                var rpResusableParam = _config.ResourceProviderReusableParameters.FirstOrDefault(param => param.Key.Equals(schema.Key, StringComparison.InvariantCultureIgnoreCase));
+                if (rpResusableParam.Key != null)
                 {
+                    // the name of the Reusable parameter can be different than the one in the common file
+                    var nameOfResusableParameter = rpResusableParam.Value;
                     // setting external references to common definitions
                     fixingActions.Add(() =>
                     {
                         var refSchema = new OpenApiSchema
                         {
-                            Reference = new OpenApiReference { ExternalResource = $"{_config.RPCommonFilePath}{ParametersPrefix}{schema.Key}" },
+                            Reference = new OpenApiReference { ExternalResource = $"{_config.RPCommonFilePath}{ParametersPrefix}{nameOfResusableParameter}" },
                             Description = schema.Value.Description
                         };
                         swaggerDoc.Components.Schemas.Remove(schema.Key);
@@ -106,8 +109,10 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
                 // if one of the properties is a reference to a common defination, clean it up and leave only the reference+description
                 // used to commonize enums
                 var id = prop.Value.Reference?.Id ?? prop.Value.AllOf?.FirstOrDefault()?.Reference?.Id;
+
+                var rpResusableParam = _config.ResourceProviderReusableParameters.FirstOrDefault(param => param.Key.Equals(id, StringComparison.InvariantCultureIgnoreCase));
                 if (id != null &&
-                    (_config.ResourceProviderReusableParameters.Contains(id) ||
+                    (rpResusableParam.Key != null ||
                     _config.VersionCommonReusableDefinitions.ContainsKey(id)))
                 {
                     //commonize property of schema
@@ -152,13 +157,14 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
             }
 
             // commonize parameters to resource provider common
-            foreach (var resuseParam in _config.ResourceProviderReusableParameters)
+            foreach (var resuseParamKeyValue in _config.ResourceProviderReusableParameters)
             {
-                var reuseParamName = resuseParam;
+                var reuseParamName = resuseParamKeyValue.Key;
+                var commonParamName = resuseParamKeyValue.Value;
                 var opParam = op.Value.Parameters.FirstOrDefault(p => reuseParamName.Equals(p.Name, StringComparison.OrdinalIgnoreCase) || p.Reference?.Id == reuseParamName);
                 if (opParam != null)
                 {
-                    opParam.Reference = new OpenApiReference { ExternalResource = $"{_config.RPCommonFilePath}{ParametersPrefix}{reuseParamName}" };
+                    opParam.Reference = new OpenApiReference { ExternalResource = $"{_config.RPCommonFilePath}{ParametersPrefix}{commonParamName}" };
                 }
             }
 
@@ -178,19 +184,19 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
 
         private void RemoveReusedEntitiesFromDocument(OpenApiDocument swaggerDoc)
         {
-            foreach (var resuseParam in _config.GlobalCommonReusableParameters)
+            foreach (var reuseParam in _config.GlobalCommonReusableParameters)
             {
-                swaggerDoc.Components.Parameters.Remove(resuseParam.Key);
+                swaggerDoc.Components.Parameters.Remove(reuseParam.Key);
             }
 
-            foreach (var resuseParam in _config.ResourceProviderReusableParameters)
+            foreach (var reuseParam in _config.ResourceProviderReusableParameters.Select(kvp => kvp.Key))
             {
-                swaggerDoc.Components.Parameters.Remove(resuseParam);
+                swaggerDoc.Components.Parameters.Remove(reuseParam);
             }
 
-            foreach (var resuseParam in _config.VersionCommonReusableDefinitions)
+            foreach (var reuseParam in _config.VersionCommonReusableDefinitions)
             {
-                swaggerDoc.Components.Schemas.Remove(resuseParam.Key);
+                swaggerDoc.Components.Schemas.Remove(reuseParam.Key);
             }
         }
     }

@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using ParameterName = System.String;
+using ActualParameterName = System.String;
 
 namespace SimpleKindArmResourceProviderDemo
 {
@@ -26,7 +28,7 @@ namespace SimpleKindArmResourceProviderDemo
 
             var genarateInternalSwagger = Environment.GetCommandLineArgs().Contains("--internal-swagger");
             var genarateExternalSwagger = !genarateInternalSwagger;
-            var OdataReusableParameters = new List<string>() { "$filter", "$orderBy", "$skipToken", "$top" };
+            
             _swaggerConfig = new SwaggerConfig
             {
                 PolymorphicSchemaModels = new List<Type> { typeof(TrafficResource), typeof(WindResource) },
@@ -46,9 +48,10 @@ namespace SimpleKindArmResourceProviderDemo
                         }
                     }
                 },
-                ResourceProviderReusableParameters = OdataReusableParameters.Concat(new List<string> { "WorkspaceName" }).ToList(),
+                ResourceProviderReusableParameters = new List<KeyValuePair<ParameterName, ActualParameterName>> {
+                    new KeyValuePair<ParameterName, ActualParameterName>("WorkspaceName", "WorkspaceName") },
                 HideParametersEnabled = genarateExternalSwagger,
-                GenerateExternalSwagger = genarateExternalSwagger,
+                GenerateExternalSwagger = genarateExternalSwagger,                
                 SupportedApiVersions = new[] { "v1" },
                 GlobalCommonFilePath = "../../../../../Global/types.json",
                 RPCommonFilePath = "../Demo/types.json",
@@ -63,9 +66,9 @@ namespace SimpleKindArmResourceProviderDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(c =>
-            {
+            {              
             });
-            services.AddAutorestCompliantSwagger(_swaggerConfig);
+            services.AddArmCompliantSwagger(_swaggerConfig);
 
         }
 
@@ -77,7 +80,22 @@ namespace SimpleKindArmResourceProviderDemo
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseAutorestCompliantSwagger(_swaggerConfig);
+            app.UseSwagger(options =>
+            {
+                options.RouteTemplate = "swagger/{documentName}/swagger.json";
+                // Change generated swagger version to 2.0
+                options.SerializeAsV2 = true;
+            });
+
+            app.UseSwaggerUI(option =>
+            {
+                IEnumerable<string> actualDocumentsToGenerate = _swaggerConfig.SupportedApiVersions;
+                if (actualDocumentsToGenerate == null || !actualDocumentsToGenerate.Any())
+                {
+                    actualDocumentsToGenerate = new[] { _swaggerConfig.DefaultApiVersion };
+                }
+                actualDocumentsToGenerate.ToList().ForEach(v => option.SwaggerEndpoint($"/swagger/{v}/swagger.json", v));
+            });
 
             app.UseRouting();
 

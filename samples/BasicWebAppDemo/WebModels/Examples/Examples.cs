@@ -21,7 +21,6 @@ namespace BasicWebAppDemo.WebModels.Examples
                             Summary = "Some summary1",
                             Properties = new SomeObj { MyProperty = 1, MyPropertyStr = "str" }
                         })
-
             };
         }
 

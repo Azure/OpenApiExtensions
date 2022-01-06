@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.OpenApi.Models;
-
 using FileNameWithoutExtension = System.String;
 using TypeName = System.String;
+using ParemeterName = System.String;
+using ActualParemeterName = System.String;
 
 namespace Microsoft.Azure.OpenApiExtensions.Options
 {
@@ -17,6 +18,13 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         /// <value></value>
         public List<Type> PolymorphicSchemaModels { get; set; } = new List<Type>();
         public bool ModelEnumsAsString { get; set; } = true;
+
+        /// <summary>
+        /// As Siblings of $ref are forbidden, we can use "AllOf" that permits siblings such as description, required, and other
+        /// see https://swagger.io/docs/specification/data-models/oneof-anyof-allof-not/#allof
+        /// default is "false", so $ref is prefered than AllOf
+        /// </summary>
+        public bool UseAllOfToExtendReferenceSchemas { get; set; }
 
         /// <summary>
         /// Creates shared Definitions for commonly used endpoint parameters (operations parameters) within the swagger document
@@ -47,7 +55,7 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         /// </summary>
         /// <typeparam name="string">the Definition (schema) name </typeparam>
         /// <returns></returns>
-        public List<TypeName> ResourceProviderReusableParameters { get; set; } = new List<TypeName>();
+        public List<KeyValuePair<ParemeterName, ActualParemeterName>> ResourceProviderReusableParameters { get; set; } = new List<KeyValuePair<FileNameWithoutExtension, FileNameWithoutExtension>>();
 
         /// <summary>
         /// Read all XML Documentation files available under the running assembly folder 
@@ -66,8 +74,8 @@ namespace Microsoft.Azure.OpenApiExtensions.Options
         /// </summary>
         /// <value></value>
         public bool HideParametersEnabled { get; set; }
-        public IEnumerable<string> SupportedApiVersions { get; set; }        
-        
+        public IEnumerable<string> SupportedApiVersions { get; set; }
+
         /// <see cref="OpenApiDocumentInfo.Title"/>
         public string Title { get; set; }
 

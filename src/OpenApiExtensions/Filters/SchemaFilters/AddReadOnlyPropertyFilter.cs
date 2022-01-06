@@ -31,7 +31,17 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.SchemaFilters
 
             foreach (var schemaProperty in schema.Properties)
             {
-                var property = context.Type.GetProperty(schemaProperty.Key, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                PropertyInfo property;
+                try
+                {
+                    property = context.Type.GetProperty(schemaProperty.Key, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                }
+                catch (System.Reflection.AmbiguousMatchException)
+                {
+                    // we do this to support overrides on inhrited (properties with new keyword)
+                    property = context.Type.GetProperty(schemaProperty.Key, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                }
+
 
                 if (property != null)
                 {

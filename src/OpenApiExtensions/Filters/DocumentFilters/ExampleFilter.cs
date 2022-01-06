@@ -91,9 +91,9 @@ namespace Microsoft.Azure.OpenApiExtensions.Filters.DocumentFilters
                 if (requestExampleAttributes.Any())
                 {
                     var requestExample = requestExampleAttributes.First().ExampleProviderInstance.GetExample();
-                    if ((requestExample as BasicAsiRequestExample) != null && ((BasicAsiRequestExample)requestExample).ApiVersion == null)
+                    if ((requestExample as IApiVersionableRequestExample) != null && ((IApiVersionableRequestExample)requestExample).ApiVersion == null)
                     {
-                        ((BasicAsiRequestExample)requestExample).ApiVersion = docName;
+                        ((IApiVersionableRequestExample)requestExample).ApiVersion = docName;
                     }
                     exampleObj.Parameters = requestExample;
                 }
